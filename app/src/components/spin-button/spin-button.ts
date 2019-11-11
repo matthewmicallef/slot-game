@@ -1,7 +1,7 @@
 import { Container, Text, Sprite } from 'pixi.js';
 import { Circle } from '../utils/circle';
 import { GAME_CONFIG } from '../../game-config';
-import { ReelService } from '../../reel/reel-service';
+import { ReelService } from '../reel/reel-service';
 
 export class SpinButton extends Container {
   private spinning: boolean;

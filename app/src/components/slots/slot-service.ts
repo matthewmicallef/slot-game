@@ -1,5 +1,5 @@
 export class SlotService {
-    valuesInSlots = [];
+    valuesInSlots:number[] = [];
 
     addValueInSlot(value: number) {
         this.valuesInSlots.push(value);
@@ -7,5 +7,9 @@ export class SlotService {
 
     getValueFromSlotPosition(pos: number): number {
         return this.valuesInSlots[pos];
+    }
+
+    getAll(): number[] {
+        return this.valuesInSlots;
     }
 }

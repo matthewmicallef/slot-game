@@ -1,5 +1,5 @@
 import { Container } from 'pixi.js';
-import { TweenLite, Power4 } from 'gsap';
+import { TweenLite, Power4, TimelineMax, Back, Linear } from 'gsap';
 import { GAME_CONFIG } from '../game-config';
 import { ReelBackground } from './reel-background';
 import { SlotsContainer } from '../slots/slots-container';
@@ -8,7 +8,7 @@ import { ReelProps } from './reel.model';
 import { SlotService } from '../slots/slot-service';
 
 export class Reel extends Container {
-  private numOfSlots: number;
+  private slotCount: number;
   private slotService: SlotService;
 
   constructor(
@@ -17,11 +17,10 @@ export class Reel extends Container {
     super();
 
     this.slotService = new SlotService();
-
-    this.numOfSlots = this.getReelSlotCount(reel.radius);
+    this.slotCount = this.getSlotCount(reel.radius);
 
     this.addChild(new ReelBackground(reel.radius, reel.colour));
-    this.addChild(new SlotsContainer(this.numOfSlots, reel.radius, this.slotService));
+    this.addChild(new SlotsContainer(this.slotCount, reel.radius, this.slotService));
 
     this.pivot.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y);
     this.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y);
@@ -29,26 +28,28 @@ export class Reel extends Container {
 
   /* eslint-disable class-methods-use-this */
   spin() {
+    console.log('all', this.slotService.getAll());
     console.log('start spinning');
 
-    const sectorToLandOn = randomNumberFromRange(0, this.numOfSlots - 1);
-
-    const slotValueLandedOn = this.slotService.getValueFromSlotPosition(sectorToLandOn);
+    const slotToLandOn = randomNumberFromRange(0, this.slotCount - 1);
+    console.log("slot", slotToLandOn);
+    const slotValueLandedOn = this.slotService.getValueFromSlotPosition(slotToLandOn);
     console.log("landed on", slotValueLandedOn);
 
-    const factionOfCircle = sectorToLandOn / this.numOfSlots;
+    const factionOfCircle = slotToLandOn / this.slotCount;
     const landingAngle = factionOfCircle * Math.PI * 2;
     let finalRotation = landingAngle + Math.PI;
 
-    TweenLite.to(this, 4, {
+    const tl = new TimelineMax();
+    tl.to(this, 2, {
       rotation: - finalRotation,
-      ease: Power4.easeInOut,
+      ease: Back.easeOut.config(1)
     });
+    TweenLite.to(tl, 4, { timeScale: 0, ease: Linear.easeNone, delay: 1 });
   }
 
-  private getReelSlotCount(radius): number {
+  private getSlotCount(radius): number {
     const roundedCircumference = Math.round(radius * 2 * Math.PI);
-  
     return Math.round(roundedCircumference / GAME_CONFIG.reel.width);
   }
 }

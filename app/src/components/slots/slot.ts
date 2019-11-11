@@ -17,15 +17,15 @@ export class Slot extends Sprite {
 
     slotService.addValueInSlot(slotNumber);
 
-    const radianPerSector = (2 * Math.PI) / numberOfSlots;
+    const radiansPerSlot = (2 * Math.PI) / numberOfSlots;
 
-    const rotation = currentSlotCount * radianPerSector;
+    const rotation = currentSlotCount * radiansPerSlot;
     const symbolAnchorPercentage = (radius - GAME_CONFIG.reel.width / 2) / radius;
 
     this.anchor.set(0.5, 0.5);
+    this.rotation = rotation + Math.PI;
     this.height = GAME_CONFIG.symbolsSize.height;
     this.width = GAME_CONFIG.symbolsSize.width;
-    this.rotation = rotation + Math.PI;
 
     this.position.x = GAME_CONFIG.centerPoints.x + radius * symbolAnchorPercentage * Math.cos(rotation);
     this.position.y = GAME_CONFIG.centerPoints.y + radius * symbolAnchorPercentage * Math.sin(rotation);
