@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "es2015",
+        "lib": ["dom", "es6"],
+        "types": ["reflect-metadata"],
+        "removeComments": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "sourceMap": true,
+        "watch": false,
+        "outDir": "./dist"
+    },
+    "filesGlob": [
+        "app/**/*.ts",
+        "app/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
