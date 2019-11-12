@@ -1,7 +1,7 @@
 import { Sprite, loader } from 'pixi.js';
 import { GAME_CONFIG } from '../../game-config';
-import { randomNumberFromRange } from '../utils/randon-number';
-import { SlotService } from './slot-service';
+import { randomNumberFromRange } from '../../utils/randon-number';
+import { SlotService } from '../../services/slot-service';
 
 export class Slot extends Sprite {
   constructor(
@@ -11,7 +11,7 @@ export class Slot extends Sprite {
     slotService: SlotService
   ) {
     const symbols = loader.resources[GAME_CONFIG.pathToSymbolAssets].textures;
-    const slotNumber = randomNumberFromRange(0, 5);
+    const slotNumber = randomNumberFromRange(0, GAME_CONFIG.distinctSlots - 1);
     const texture = symbols[`number-${slotNumber}.png`];
     super(texture);
 

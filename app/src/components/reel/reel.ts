@@ -3,14 +3,15 @@ import { TweenLite, TimelineMax, Back, Linear } from 'gsap';
 import { GAME_CONFIG } from '../../game-config';
 import { ReelBackground } from './reel-background';
 import { SlotsContainer } from '../slots/slots-container';
-import { randomNumberFromRange } from '../utils/randon-number';
+import { randomNumberFromRange } from '../../utils/randon-number';
 import { ReelProps } from './reel.model';
-import { SlotService } from '../slots/slot-service';
+import { SlotService } from '../../services/slot-service';
 import { SpinButton } from '../spin-button/spin-button';
 
 export class Reel extends Container {
   private slotCount: number;
   private slotService: SlotService;
+  private slotValueLandedOn: number;
 
   constructor(
     reel: ReelProps
@@ -28,14 +29,14 @@ export class Reel extends Container {
   }
 
   /* eslint-disable class-methods-use-this */
-  spin(callback: () => any) {
+  spin() {
     console.log('all', this.slotService.getAll());
     console.log('start spinning');
 
     const slotToLandOn = randomNumberFromRange(0, this.slotCount - 1);
     console.log("slot", slotToLandOn);
-    const slotValueLandedOn = this.slotService.getValueFromSlotPosition(slotToLandOn);
-    console.log("landed on", slotValueLandedOn);
+    this.slotValueLandedOn = this.slotService.getValueFromSlotPosition(slotToLandOn);
+    console.log("landed on", this.slotValueLandedOn);
 
     const factionOfCircle = slotToLandOn / this.slotCount;
     const landingAngle = factionOfCircle * Math.PI * 2;
@@ -45,8 +46,12 @@ export class Reel extends Container {
     TweenLite.to(this, 2, {
       rotation: - finalRotation,
       ease: Back.easeOut.config(1),
-      onComplete: callback
+      onComplete: this.notifySpinComplete
     });
+  }
+
+  notifySpinComplete() {
+    dispatchEvent(new CustomEvent('spin-complete', { detail: { slotResult: this.slotValueLandedOn }}));
   }
 
   private getSlotCount(radius): number {

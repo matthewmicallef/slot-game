@@ -1,27 +1,22 @@
 import { Container, Text } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
+import { BalanceService } from "../../services/balance-service";
 
 export class Balance extends Container {
     private balanceText: Text;
     private balanceValueText: Text;
-    private balance: number;
+    private balanceService: BalanceService;
 
-    constructor() {
+    constructor(
+        balanceService: BalanceService
+    ) {
         super();
+        this.balanceService = balanceService;
 
         console.log('creating balance');
 
         this.createBalanceText();
         this.createBalanceValueText();
-        this.setBalance(0);
-    }
-
-    getBalance() {
-        return this.balance.toString();
-    }
-
-    setBalance(balance: number) {
-        this.balance = balance;
     }
 
     private createBalanceText() {
@@ -34,10 +29,10 @@ export class Balance extends Container {
     }
 
     private createBalanceValueText() {
-        this.balanceValueText = new Text(this.balance.toString(), GAME_CONFIG.balance.style);
+        this.balanceValueText = new Text(this.balanceService.getBalance().toString(), GAME_CONFIG.balance.style);
 
         this.balanceValueText.anchor.set(0.5, 0.5);
-        this.balanceValueText.position.set(GAME_CONFIG.balance.position.x, GAME_CONFIG.balance.position.y);
+        this.balanceValueText.position.set(GAME_CONFIG.balance.position.x + 60, GAME_CONFIG.balance.position.y);
 
         this.addChild(this.balanceValueText);
     }

@@ -1,36 +1,45 @@
 import { Container, Text, Sprite, Graphics } from 'pixi.js';
 import { GAME_CONFIG } from '../../game-config';
-import { ReelService } from '../reel/reel-service';
+import { ReelService } from '../../services/reel-service';
+import { BetService } from '../../services/bet-service';
 
 export class SpinButton extends Container {
   private spinning: boolean;
-  private buttonText: Text;
   private reelService: ReelService;
+  private betService: BetService;
   private circle: Graphics;
 
   constructor(
-    reelService: ReelService
+    reelService: ReelService,
+    betService: BetService
   ) {
     super();
     this.spinning = false;
-    this.interactive = true;
     this.buttonMode = true;
     this.circle = new Graphics;
+    this.addChild(this.circle);
 
     this.reelService = reelService;
+    this.betService = betService;
 
-    this.createBackground();
+    this.disableButton();
     this.createText();
-    this.on('click', this.handleTap.bind(this));
+    this.on('click', () => this.handleClick());
+
+    addEventListener('bet-registered', (event: any) => {
+      if (event.detail.betCount === 1) {
+        this.enableButton();
+      }
+    }, false);
+    addEventListener('bets-cleared', () => this.disableButton(), false);
+    addEventListener('spin-complete', () => this.spinComplete(), false);
   }
 
   spinComplete() {
-    this.interactive = true;
     this.spinning = false;
-    this.enableButton();
   }
 
-  private handleTap() {
+  private handleClick() {
     if (this.spinning) {
       return;
     } else {
@@ -39,13 +48,17 @@ export class SpinButton extends Container {
   }
 
   private spin() {
-    this.spinning = true;
-    this.reelService.getReel().spin(() => this.spinComplete());
+    if (!this.betService.placeBets())
+      return;
 
+    this.spinning = true;
+    this.reelService.getReel().spin();
     this.disableButton();
+    // this.reelService.getReel().spin(() => this.spinComplete());
   }
 
   private disableButton() {
+    this.interactive = false;
     this.circle
       .beginFill(0x000000)
       .lineStyle(2, 0x000000)
@@ -54,42 +67,23 @@ export class SpinButton extends Container {
   }
 
   private enableButton() {
+    this.interactive = true;
     this.circle
       .beginFill(0xffffff)
       .lineStyle(2, 0x000000)
       .drawCircle(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y, GAME_CONFIG.centerButton.radius)
       .endFill();
-  }
-
-  private createBackground() {
-    this.circle
-      .beginFill(0xffffff)
-      .lineStyle(2, 0x000000)
-      .drawCircle(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y, GAME_CONFIG.centerButton.radius)
-      .endFill();
-
-    // const buttonBackground = new Sprite(
-    //   new Circle(
-    //     GAME_CONFIG.centerButton.radius,
-    //     GAME_CONFIG.centerButton.colour,
-    //   ).generateCanvasTexture(),
-    // );
-
-    // buttonBackground.anchor.set(0.5, 0.5);
-    // buttonBackground.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y);
-
-    this.addChild(this.circle);
   }
 
   private createText() {
-    this.buttonText = new Text('Spin', GAME_CONFIG.spinButton.style);
+    const buttonText = new Text('Spin', GAME_CONFIG.spinButton.style);
 
-    this.buttonText.anchor.set(0.5, 0.5);
-    this.buttonText.position.set(
+    buttonText.anchor.set(0.5, 0.5);
+    buttonText.position.set(
       GAME_CONFIG.centerPoints.x,
       GAME_CONFIG.centerPoints.y,
     );
 
-    this.addChild(this.buttonText);
+    this.addChild(buttonText);
   }
 }

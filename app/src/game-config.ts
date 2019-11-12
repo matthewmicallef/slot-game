@@ -35,16 +35,17 @@ export interface GameConfig {
   spinButton: SpinButtonProps;
   balance: BalanceProps;
   winGrid: WinGridProps;
+  distinctSlots: number;
 }
 
 export const GAME_CONFIG: GameConfig = {
   canvas: {
     width: 800,
-    height: 800,
+    height: 600,
   },
   centerPoints: {
     x: 400,
-    y: 400,
+    y: 250,
   },
   centerButton: {
     radius: 50,
@@ -68,7 +69,7 @@ export const GAME_CONFIG: GameConfig = {
       fontFamily: 'Arial',
       fontSize: 34,
       fill: 0xff1010,
-      align: 'center',
+      align: 'center'
     },
   },
   balance: {
@@ -90,4 +91,5 @@ export const GAME_CONFIG: GameConfig = {
     lineSize: 3,
     rows: 3,
   },
+  distinctSlots: 6
 };

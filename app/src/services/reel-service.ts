@@ -1,4 +1,4 @@
-import { Reel } from "./reel";
+import { Reel } from "../components/reel/reel";
 
 export class ReelService {
   private reel: Reel;

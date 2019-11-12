@@ -1,6 +1,6 @@
 import { Container, Graphics, Sprite } from 'pixi.js';
 import { Slot } from './slot';
-import { SlotService } from './slot-service';
+import { SlotService } from '../../services/slot-service';
 
 export class SlotsContainer extends Container {
   private slotService: SlotService;
