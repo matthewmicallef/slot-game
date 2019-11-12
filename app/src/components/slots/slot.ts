@@ -1,6 +1,6 @@
 import { Sprite, loader } from 'pixi.js';
-import { GAME_CONFIG } from '../game-config';
-import { randomNumberFromRange } from '../components/utils/randon-number';
+import { GAME_CONFIG } from '../../game-config';
+import { randomNumberFromRange } from '../utils/randon-number';
 import { SlotService } from './slot-service';
 
 export class Slot extends Sprite {

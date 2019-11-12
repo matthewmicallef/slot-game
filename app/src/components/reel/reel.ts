@@ -1,11 +1,12 @@
 import { Container } from 'pixi.js';
-import { TweenLite, Power4, TimelineMax, Back, Linear } from 'gsap';
-import { GAME_CONFIG } from '../game-config';
+import { TweenLite, TimelineMax, Back, Linear } from 'gsap';
+import { GAME_CONFIG } from '../../game-config';
 import { ReelBackground } from './reel-background';
 import { SlotsContainer } from '../slots/slots-container';
-import { randomNumberFromRange } from '../components/utils/randon-number';
+import { randomNumberFromRange } from '../utils/randon-number';
 import { ReelProps } from './reel.model';
 import { SlotService } from '../slots/slot-service';
+import { SpinButton } from '../spin-button/spin-button';
 
 export class Reel extends Container {
   private slotCount: number;
@@ -27,7 +28,7 @@ export class Reel extends Container {
   }
 
   /* eslint-disable class-methods-use-this */
-  spin() {
+  spin(callback: () => any) {
     console.log('all', this.slotService.getAll());
     console.log('start spinning');
 
@@ -40,12 +41,12 @@ export class Reel extends Container {
     const landingAngle = factionOfCircle * Math.PI * 2;
     let finalRotation = landingAngle + Math.PI;
 
-    const tl = new TimelineMax();
-    tl.to(this, 2, {
+    // const tl = new TimelineMax();
+    TweenLite.to(this, 2, {
       rotation: - finalRotation,
-      ease: Back.easeOut.config(1)
+      ease: Back.easeOut.config(1),
+      onComplete: callback
     });
-    TweenLite.to(tl, 4, { timeScale: 0, ease: Linear.easeNone, delay: 1 });
   }
 
   private getSlotCount(radius): number {

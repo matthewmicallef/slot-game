@@ -1,6 +1,7 @@
-import { ReelProps } from "./reel/reel.model";
+import { ReelProps } from "./components/reel/reel.model";
 import { WinGridProps } from "./components/win-grid/win-grid.model";
 import { SpinButtonProps } from "./components/spin-button/spin-button.model";
+import { BalanceProps } from "./components/balance/balance.model";
 
 export interface ComponentStyle {
   fontFamily: string;
@@ -14,7 +15,7 @@ export interface Measurement {
   height: number;
 }
 
-export interface GameCenterPoints {
+export interface Points {
   x: number;
   y: number;
 }
@@ -26,12 +27,13 @@ export interface GameCenterButton {
 
 export interface GameConfig {
   canvas: Measurement;
-  centerPoints: GameCenterPoints;
+  centerPoints: Points;
   centerButton: GameCenterButton;
   reel: ReelProps;
   pathToSymbolAssets: string;
   symbolsSize: Measurement;
   spinButton: SpinButtonProps;
+  balance: BalanceProps;
   winGrid: WinGridProps;
 }
 
@@ -50,7 +52,7 @@ export const GAME_CONFIG: GameConfig = {
   },
   reel: {
     width: 60,
-    radius: 300,
+    radius: 200,
     colour: 0x030E94,
     maxSpeed: 2,
     speedIncrease: 0.1,
@@ -68,6 +70,18 @@ export const GAME_CONFIG: GameConfig = {
       fill: 0xff1010,
       align: 'center',
     },
+  },
+  balance: {
+    style: {
+      fontFamily: 'Arial',
+      fontSize: 20,
+      fill: 0xff1010,
+      align: 'center',
+    },
+    position: {
+      x: 50,
+      y: 20
+    }
   },
   winGrid: {
     width: 200,

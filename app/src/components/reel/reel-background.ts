@@ -1,6 +1,6 @@
 import { Sprite } from 'pixi.js';
-import { Circle } from '../components/utils/circle';
-import { GAME_CONFIG } from '../game-config';
+import { Circle } from '../utils/circle';
+import { GAME_CONFIG } from '../../game-config';
 
 export class ReelBackground extends Sprite {
   constructor(radius, colour) {
