@@ -43,10 +43,10 @@ export class Reel extends Container {
     let finalRotation = landingAngle + Math.PI;
 
     // const tl = new TimelineMax();
-    TweenLite.to(this, 2, {
+    TweenLite.to(this, 4, {
       rotation: - finalRotation,
       ease: Back.easeOut.config(1),
-      onComplete: this.notifySpinComplete
+      onComplete: () => this.notifySpinComplete()
     });
   }
 

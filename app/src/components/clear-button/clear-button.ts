@@ -13,8 +13,7 @@ export class ClearButton extends Container {
         betAreas: BetArea[]
     ) {
         super();
-        this.buttonMode = true; 
-        this.interactive = true;
+        this.buttonMode = true;
 
         this.betService = betService;
         this.betAreas = betAreas;
@@ -23,6 +22,11 @@ export class ClearButton extends Container {
         this.createBackground();
         this.createText();
         this.on('click', () => this.handleClick());
+        this.disableButton();
+
+        addEventListener('bet-area-clicked', () => this.enableButton(), false);
+        addEventListener('spin-complete', () => this.disableButton(), false);
+        addEventListener('spinning', () => this.disableButton(), false);
     }
 
     private createBackground() {
@@ -45,15 +49,38 @@ export class ClearButton extends Container {
 
         buttonText.anchor.set(0.5, 0.5);
         buttonText.position.set(700, 525);
-    
+
         this.addChild(buttonText);
     }
 
     private handleClick() {
+        if (!this.interactive)
+            return;
+
         this.betService.resetBets();
 
         for (let i = 0; i < this.betAreas.length; i++) {
             this.betAreas[i].resetChipCount();
         }
+
+        this.disableButton();
+    }
+
+    private disableButton() {
+        this.interactive = false;
+        this.circle
+            .beginFill(0x000000)
+            .lineStyle(2, 0x000000)
+            .drawCircle(700, 525, 30)
+            .endFill();
+    }
+
+    private enableButton() {
+        this.interactive = true;
+        this.circle
+            .beginFill(0xffffff)
+            .lineStyle(2, 0x000000)
+            .drawCircle(700, 525, 30)
+            .endFill();
     }
 }

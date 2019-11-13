@@ -11,7 +11,7 @@ export class Slot extends Sprite {
     slotService: SlotService
   ) {
     const symbols = loader.resources[GAME_CONFIG.pathToSymbolAssets].textures;
-    const slotNumber = randomNumberFromRange(0, GAME_CONFIG.distinctSlots - 1);
+    const slotNumber = randomNumberFromRange(0, GAME_CONFIG.slotValues.length - 1, GAME_CONFIG.slotValues);
     const texture = symbols[`number-${slotNumber}.png`];
     super(texture);
 

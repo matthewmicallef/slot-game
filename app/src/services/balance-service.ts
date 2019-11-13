@@ -15,4 +15,18 @@ export class BalanceService {
     setBalance(balance: number) {
         this.balance = balance;
     }
+
+    addToBalance(value: number) {
+        this.balance += value;
+        this.notifyBalanceUpdate();
+    }
+
+    deductFromBalance(value: number) {
+        this.balance -= value;
+        this.notifyBalanceUpdate();
+    }
+
+    notifyBalanceUpdate() {
+        dispatchEvent(new CustomEvent('balance-updated', { detail: { balance: this.balance } }));
+    }
 }

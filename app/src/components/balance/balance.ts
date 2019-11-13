@@ -17,6 +17,13 @@ export class Balance extends Container {
 
         this.createBalanceText();
         this.createBalanceValueText();
+
+        addEventListener('balance-updated',
+            (event: any) => {
+                this.updateBalanceValueText(event.detail.balance);
+            },
+            false
+        );
     }
 
     private createBalanceText() {
@@ -35,5 +42,9 @@ export class Balance extends Container {
         this.balanceValueText.position.set(GAME_CONFIG.balance.position.x + 60, GAME_CONFIG.balance.position.y);
 
         this.addChild(this.balanceValueText);
+    }
+
+    private updateBalanceValueText(balance: number) {
+        this.balanceValueText.text = balance.toString();
     }
 }

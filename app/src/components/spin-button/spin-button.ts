@@ -48,12 +48,14 @@ export class SpinButton extends Container {
   }
 
   private spin() {
-    if (!this.betService.placeBets())
-      return;
+    // if (!this.betService.placeBets())
+    //   return;
+    this.betService.placeBets();
 
     this.spinning = true;
     this.reelService.getReel().spin();
     this.disableButton();
+    dispatchEvent(new Event('spinning'));
     // this.reelService.getReel().spin(() => this.spinComplete());
   }
 

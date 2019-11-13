@@ -1,28 +1,8 @@
 {
 	"frames": {
-		"number-0.png": {
-			"frame": {
-				"x": 1,
-				"y": 1,
-				"w": 512,
-				"h": 512
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 512,
-				"h": 512
-			},
-			"sourceSize": {
-				"w": 512,
-				"h": 512
-			}
-		},
 		"number-1.png": {
 			"frame": {
-				"x": 515,
+				"x": 1,
 				"y": 1,
 				"w": 512,
 				"h": 512
@@ -42,6 +22,26 @@
 		},
 		"number-2.png": {
 			"frame": {
+				"x": 515,
+				"y": 1,
+				"w": 512,
+				"h": 512
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 512,
+				"h": 512
+			},
+			"sourceSize": {
+				"w": 512,
+				"h": 512
+			}
+		},
+		"number-4.png": {
+			"frame": {
 				"x": 1,
 				"y": 515,
 				"w": 512,
@@ -60,7 +60,7 @@
 				"h": 512
 			}
 		},
-		"number-3.png": {
+		"number-6.png": {
 			"frame": {
 				"x": 515,
 				"y": 515,
@@ -80,7 +80,7 @@
 				"h": 512
 			}
 		},
-		"number-4.png": {
+		"number-7.png": {
 			"frame": {
 				"x": 1029,
 				"y": 1,
@@ -100,7 +100,7 @@
 				"h": 512
 			}
 		},
-		"number-5.png": {
+		"number-9.png": {
 			"frame": {
 				"x": 1029,
 				"y": 515,

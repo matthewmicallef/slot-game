@@ -35,7 +35,7 @@ export interface GameConfig {
   spinButton: SpinButtonProps;
   balance: BalanceProps;
   winGrid: WinGridProps;
-  distinctSlots: number;
+  slotValues: number[];
 }
 
 export const GAME_CONFIG: GameConfig = {
@@ -91,5 +91,5 @@ export const GAME_CONFIG: GameConfig = {
     lineSize: 3,
     rows: 3,
   },
-  distinctSlots: 6
+  slotValues: [1, 2, 4, 6, 7, 9]
 };
