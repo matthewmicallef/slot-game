@@ -17,25 +17,6 @@ export class BetService {
         this.balanceService = balanceService;
         this.registeredBets = [];
         this.resetBets();
-
-        // addEventListener('spin-complete',
-        //     (event: any) => {
-        //         this.calculateWin(event.detail.slotResult);
-        //         if (this.win > 0) {
-        //             // show winning message here.
-        //             this.balanceService.addToBalance(this.win);
-        //         }
-
-        //         if (this.balanceService.getBalance() <= 0) {
-
-        //         }
-
-        //         setTimeout(() => {
-        //             this.resetBets();
-        //         }, 2000);
-        //     },
-        //     false
-        // );
     }
 
     registerBet(bet: Bet) {
@@ -44,23 +25,11 @@ export class BetService {
     }
 
     placeBets() {
-        // const currentBalance = this.balanceService.getBalance();
-
-        // let requiredBalance = 0;
         this.placedBets = this.registeredBets;
         this.registeredBets = [];
         for (let bet of this.registeredBets) {
-            // requiredBalance += this.registeredBets[i].chipAmount;
             this.balanceService.deductFromBalance(bet.chipAmount);
         }
-
-        // if (requiredBalance <= currentBalance) {
-        //     this.placedBets = this.registeredBets;
-        //     this.balanceService.deductFromBalance(requiredBalance);
-        //     return true;
-        // }        
-
-        // return false;
     }
 
     resetBets() {
@@ -80,7 +49,7 @@ export class BetService {
         this.win = 0;
         for (let i = 0; i < this.placedBets.length; i++) {
             if (this.placedBets[i].slotValue === slotResult) {
-                this.win += this.placedBets[i].chipAmount * this.placedBets[i].slotValue;
+                this.win += this.placedBets[i].chipAmount + (this.placedBets[i].chipAmount * this.placedBets[i].slotValue);
             }
         }
 
