@@ -56,7 +56,6 @@ export class BetArea extends Container {
         this.chipCountValueText.text = this.chipCount.toString();
         this.balanceService.deductFromBalance(1);
         dispatchEvent(new Event('bet-area-clicked'));
-        // TODO: Update Balance on every click and on clear button update balance again
     }
 
     private createBetArea() {

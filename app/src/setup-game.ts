@@ -9,45 +9,21 @@ import { BetArea } from './components/bet-area/bet-area';
 import { BalanceService } from './services/balance-service';
 import { BetService } from './services/bet-service';
 import { ClearButton } from './components/clear-button/clear-button';
-import { WinMessage } from './components/win-message/win-message';
 import { Pointer } from './components/pointer/pointer';
-import { GameOver } from './components/game-over/game-over';
 import { GameHandlerService } from './services/game-handler-service';
+import { GameScene } from './scenes/game/game.scene';
+import { SplashScene } from './scenes/splash/splash.scene';
 
 export class SetupGame {
   constructor(
     application: Application
   ) {
 
-    const balanceService = new BalanceService(5);
-    const balance = new Balance(balanceService);
-    const betService = new BetService(balanceService);
-    const betAreas: BetArea[] = [];
+    const splashScene = application.stage.addChild(new SplashScene());
 
-    const reelService = new ReelService();
-    const canvasReel = new Reel(GAME_CONFIG.reel);
-    reelService.setReel(canvasReel);
-
-    for (let i = 0; i <= 5; i++) {
-      const betArea = new BetArea(i, GAME_CONFIG.slotValues[i], betService, balanceService);
-      betAreas.push(betArea);
-      application.stage.addChild(betArea);
-    }
-
-    const clearButton = new ClearButton(betService, betAreas);
-    const spinButton = new SpinButton(reelService, betService);
-
-    const gameHandlerService = new GameHandlerService(
-      application,
-      betService,
-      balanceService,
-      betAreas
-    );
-
-    application.stage.addChild(balance);
-    application.stage.addChild(canvasReel);
-    application.stage.addChild(clearButton);
-    application.stage.addChild(spinButton);
-    application.stage.addChild(new Pointer());
+    addEventListener('continue-to-game', () => {
+      application.stage.removeChild(splashScene);
+      application.stage.addChild(new GameScene());
+    });
   }
 }

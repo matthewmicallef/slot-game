@@ -1,23 +1,23 @@
 import { BetService } from "./bet-service";
 import { BalanceService } from "./balance-service";
-import { Application } from "pixi.js";
+import { Container } from "pixi.js";
 import { WinMessage } from "../components/win-message/win-message";
 import { BetArea } from "../components/bet-area/bet-area";
 import { GameOver } from "../components/game-over/game-over";
 
 export class GameHandlerService {
-    private application: Application;
+    private container: Container;
     private betService: BetService;
     private balanceService: BalanceService;
     private betAreas: BetArea[];
 
     constructor(
-        application: Application,
+        container: Container,
         betService: BetService,
         balanceService: BalanceService,
         betAreas: BetArea[]
     ) {
-        this.application = application;
+        this.container = container;
         this.betService = betService;
         this.balanceService = balanceService;
         this.betAreas = betAreas;
@@ -31,9 +31,9 @@ export class GameHandlerService {
 
         if (win > 0) {
             this.balanceService.addToBalance(win);
-            const winContainer = this.application.stage.addChild(new WinMessage(win));
+            const winContainer = this.container.addChild(new WinMessage(win));
             setTimeout(() => {
-                this.application.stage.removeChild(winContainer);
+                this.container.removeChild(winContainer);
             }, 1000);
         }
 
@@ -52,9 +52,9 @@ export class GameHandlerService {
     }
 
     handleGameOver() {
-        this.application.stage.addChild(new GameOver());
+        this.container.addChild(new GameOver());
 
-        for (let child of this.application.stage.children) {
+        for (let child of this.container.children) {
           child.interactive = false;
         }
     }
