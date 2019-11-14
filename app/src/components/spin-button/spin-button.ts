@@ -1,4 +1,4 @@
-import { Container, Text, Sprite, Graphics, Texture } from 'pixi.js';
+import { Sprite, Texture } from 'pixi.js';
 import { GAME_CONFIG } from '../../game-config';
 import { ReelService } from '../../services/reel-service';
 import { BetService } from '../../services/bet-service';
