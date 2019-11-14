@@ -19,9 +19,12 @@ export class SetupGame {
     application: Application
   ) {
 
-    const splashScene = application.stage.addChild(new SplashScene());
+    
+    const splashScene = new SplashScene();
+    application.stage.addChild(splashScene);
 
     addEventListener('continue-to-game', () => {
+      splashScene.removeTextBox();
       application.stage.removeChild(splashScene);
       application.stage.addChild(new GameScene());
     });
