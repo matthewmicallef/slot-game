@@ -1,8 +1,7 @@
-import { Container, Sprite, Texture, Graphics } from "pixi.js";
+import { Container, Sprite, Texture, Graphics, Text, DisplayObject } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
 
 export class SplashScene extends Container {
-    private inputElement: HTMLInputElement;
     private continueButton: Sprite;
 
     constructor() {
@@ -14,7 +13,9 @@ export class SplashScene extends Container {
     }
 
     removeTextBox() {
-        document.body.removeChild(this.inputElement);
+        const gameContainerElement = document.getElementsByClassName('game-container')[0];
+        const balanceInputElement = document.getElementsByTagName('input')[0];        
+        gameContainerElement.removeChild(balanceInputElement);
     }
 
     private createBackground() {
@@ -33,7 +34,7 @@ export class SplashScene extends Container {
         this.continueButton = new Sprite(continueButtonTexture);
     
         this.continueButton.anchor.set(0.5, 0.5);
-        this.continueButton.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y + 275);
+        this.continueButton.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y + 287);
         this.continueButton.scale.set(0.4, 0.4);
         this.continueButton.buttonMode = true;
         this.continueButton.interactive = false;
@@ -46,42 +47,58 @@ export class SplashScene extends Container {
             this.continueButton.texture = continueButtonTexture;
         });
 
-        this.continueButton.on('pointertap', () => {
-            const input = this.inputElement.valueAsNumber;
-            this.handleClick(input);
-        });
+        this.continueButton.on('pointertap', () => this.handleClick(this.getInputValue()));
 
         this.addChild(this.continueButton);
     }
 
     private createTextBox() {
         this.createTextboxBackground();
+        this.createTextboxTitle();
         this.createInputElement();
     }
 
     private handleClick(requiredBalance: number) {
-        dispatchEvent(new CustomEvent('continue-to-game', { detail: { requiredBalance: requiredBalance }}));
+        dispatchEvent(new CustomEvent('load-game', { detail: { requiredBalance: requiredBalance }}));
+    }
+
+    private createTextboxTitle() {
+        const inputTitle = new Text('Enter Required Balance:', {
+            fontSize: 18,
+            fill: 0xffffff
+        });
+
+        inputTitle.anchor.set(0.5, 0.5);
+        inputTitle.position.set(GAME_CONFIG.centerPoints.x, 420);
+
+        this.addChild(inputTitle);
     }
 
     private createInputElement() {
+        const gameContainerElement = document.getElementsByClassName('game-container')[0];
+
         const input = document.createElement('input');
         input.type = 'number';
-        input.style.position = 'absolute';
-        input.style.top = '425px';
-        input.style.left = '370px';
+        input.className = 'balance-input';
+        input.style.position = 'relative';
+        input.style.width = '170px';
+        input.style.height = '30px';
+        input.style.top = '473px';
+        input.style.left = '315px';
         input.style.background = 'transparent';
         input.style.border = 'none';
         input.style.outlineWidth = '0';
         input.style.color = 'black';
         input.style.caretColor = 'black';
-
+        input.style.fontSize = '20px';
+        
         input.oninput = () => this.checkInputContent();
-
-        this.inputElement = document.body.appendChild(input);
+        
+        gameContainerElement.prepend(input);
     }
 
     private checkInputContent() {
-        if (this.inputElement.valueAsNumber > 0) {
+        if (this.getInputValue() > 0) {
             this.continueButton.interactive = true;
             return;
         }
@@ -93,8 +110,12 @@ export class SplashScene extends Container {
         this.addChild(
             new Graphics()
                 .beginFill(0xF9D24C)
-                .drawRect(315, 416, 173, 21)
+                .drawRect(316, 441, 170, 32)
                 .endFill()
         );
+    }
+
+    private getInputValue() {
+        return document.getElementsByTagName('input')[0].valueAsNumber;
     }
 }

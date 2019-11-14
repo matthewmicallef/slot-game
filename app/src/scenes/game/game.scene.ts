@@ -17,9 +17,11 @@ export class GameScene extends Container {
     private betService: BetService;
     private reelService: ReelService;
 
-    constructor() {
+    constructor(
+        balance: number
+    ) {
         super();
-        this.balanceService = new BalanceService(5);
+        this.balanceService = new BalanceService(balance);
         this.betService = new BetService(this.balanceService);
         this.reelService = new ReelService();
 
