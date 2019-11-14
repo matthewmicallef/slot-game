@@ -1,38 +1,35 @@
-import { Container, Text, Sprite, Graphics } from 'pixi.js';
+import { Container, Text, Sprite, Graphics, Texture } from 'pixi.js';
 import { GAME_CONFIG } from '../../game-config';
 import { ReelService } from '../../services/reel-service';
 import { BetService } from '../../services/bet-service';
 
-export class SpinButton extends Container {
+export class SpinButton extends Sprite {
   private spinning: boolean;
   private reelService: ReelService;
   private betService: BetService;
-  private circle: Graphics;
 
   constructor(
     reelService: ReelService,
     betService: BetService
   ) {
-    super();
+    const spinButtonTexture = Texture.fromImage('./assets/button-reload.png');
+    const spinButtonHoverTexture = Texture.fromImage('./assets/button-reload-hover.png');
+
+    super(spinButtonTexture);
+
     this.spinning = false;
     this.buttonMode = true;
-    this.circle = new Graphics;
-    this.addChild(this.circle);
+
 
     this.reelService = reelService;
     this.betService = betService;
 
-    this.disableButton();
-    this.createText();
-    this.on('click', () => this.handleClick());
+    this.anchor.set(0.5, 0.5);
+    this.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y);
+    this.scale.set(0.4, 0.4);
 
-    addEventListener('bet-registered', (event: any) => {
-      if (event.detail.betCount === 1) {
-        this.enableButton();
-      }
-    }, false);
-    addEventListener('bets-cleared', () => this.disableButton(), false);
-    addEventListener('spin-complete', () => this.spinComplete(), false);
+    this.disableButton();
+    this.handleEvents(spinButtonTexture, spinButtonHoverTexture);
   }
 
   spinComplete() {
@@ -58,31 +55,29 @@ export class SpinButton extends Container {
 
   private disableButton() {
     this.interactive = false;
-    this.circle
-      .beginFill(0x000000)
-      .lineStyle(2, 0x000000)
-      .drawCircle(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y, GAME_CONFIG.centerButton.radius)
-      .endFill();
   }
 
   private enableButton() {
     this.interactive = true;
-    this.circle
-      .beginFill(0xffffff)
-      .lineStyle(2, 0x000000)
-      .drawCircle(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y, GAME_CONFIG.centerButton.radius)
-      .endFill();
   }
 
-  private createText() {
-    const buttonText = new Text('Spin', GAME_CONFIG.spinButton.style);
+  private handleEvents(texture: Texture, hoverTexture: Texture) {
+    this.on('pointertap', () => this.handleClick());
 
-    buttonText.anchor.set(0.5, 0.5);
-    buttonText.position.set(
-      GAME_CONFIG.centerPoints.x,
-      GAME_CONFIG.centerPoints.y,
-    );
+    this.on('pointerover', () => {
+      this.texture = hoverTexture;
+    });
 
-    this.addChild(buttonText);
+    this.on('pointerout', () => {
+      this.texture = texture;
+    });
+
+    addEventListener('bet-registered', (event: any) => {
+      if (event.detail.betCount === 1) {
+        this.enableButton();
+      }
+    }, false);
+    addEventListener('bets-cleared', () => this.disableButton(), false);
+    addEventListener('spin-complete', () => this.spinComplete(), false);
   }
 }
