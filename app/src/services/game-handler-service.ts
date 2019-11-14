@@ -26,12 +26,12 @@ export class GameHandlerService {
         addEventListener('no-funds-available', () => this.handleGameOver(), false);
     }
 
-    handleGameSpinComplete(slotResult: number, ) {
+    handleGameSpinComplete(slotResult: number) {
         const win = this.betService.calculateWin(slotResult);
 
-        if (win > 0) {
-            this.balanceService.addToBalance(win);
-            const winContainer = this.container.addChild(new WinMessage(win));
+        if (win.balanceWin > 0) {
+            this.balanceService.addToBalance(win.balanceWin);
+            const winContainer = this.container.addChild(new WinMessage(win.actualWin));
             setTimeout(() => {
                 this.container.removeChild(winContainer);
             }, 1000);

@@ -20,7 +20,6 @@ export class SpinButton extends Sprite {
     this.spinning = false;
     this.buttonMode = true;
 
-
     this.reelService = reelService;
     this.betService = betService;
 

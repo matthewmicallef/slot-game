@@ -5,11 +5,15 @@ export interface Bet {
     slotValue: number;
 }
 
+export interface Win {
+    actualWin: number;
+    balanceWin: number;
+}
+
 export class BetService {
     private balanceService: BalanceService;
     private placedBets: Bet[];
     private registeredBets: Bet[];
-    private win = 0;
 
     constructor(
         balanceService: BalanceService
@@ -41,19 +45,21 @@ export class BetService {
         dispatchEvent(new Event('bets-cleared'));
     }
 
-    getWin(): number {
-        return this.win;
-    } 
+    calculateWin(slotResult: number): Win {
+        let win = 0;
+        let chipAmount = 0;
 
-    calculateWin(slotResult: number): number {
-        this.win = 0;
         for (let i = 0; i < this.placedBets.length; i++) {
             if (this.placedBets[i].slotValue === slotResult) {
-                this.win += this.placedBets[i].chipAmount + (this.placedBets[i].chipAmount * this.placedBets[i].slotValue);
+                chipAmount += this.placedBets[i].chipAmount;
+                win += this.placedBets[i].chipAmount + (this.placedBets[i].chipAmount * this.placedBets[i].slotValue);
             }
         }
 
-        console.log('win', this.win);
-        return this.win;
+        console.log('win', win);
+        return {
+            actualWin: win - chipAmount,
+            balanceWin: win
+        };
     }
 }
