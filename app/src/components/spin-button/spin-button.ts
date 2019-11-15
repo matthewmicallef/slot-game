@@ -1,6 +1,5 @@
 import { Sprite, Texture } from 'pixi.js';
 import * as snd from 'pixi-sound';
-import { GAME_CONFIG } from '../../game-config';
 import { ReelService } from '../../services/reel-service';
 import { BetService } from '../../services/bet-service';
 
