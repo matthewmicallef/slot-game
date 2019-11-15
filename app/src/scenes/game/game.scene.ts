@@ -1,9 +1,9 @@
 import { Container } from 'pixi.js';
+import * as snd from 'pixi-sound';
 import { Reel } from '../../components/reel/reel';
 import { GAME_CONFIG } from '../../game-config';
 import { SpinButton } from '../../components/spin-button/spin-button';
 import { ReelService } from '../../services/reel-service';
-import { WinGrid } from '../../components/win-grid/win-grid';
 import { Balance } from '../../components/balance/balance';
 import { BetArea } from '../../components/bet-area/bet-area';
 import { BalanceService } from '../../services/balance-service';
@@ -27,6 +27,7 @@ export class GameScene extends Container {
         this.reelService = new ReelService();
 
         this.init();
+        this.addSound();
     }
 
     init() {
@@ -59,5 +60,10 @@ export class GameScene extends Container {
         this.addChild(clearButton);
         this.addChild(spinButton);
         this.addChild(new Pointer());
+    }
+
+    private addSound() {
+        const sceneSound = snd.default.Sound.from('./assets/sounds/game-play.mp3');
+        sceneSound.play();
     }
 }

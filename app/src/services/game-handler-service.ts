@@ -1,6 +1,6 @@
+import { Container, sound } from "pixi.js";
 import { BetService } from "./bet-service";
 import { BalanceService } from "./balance-service";
-import { Container } from "pixi.js";
 import { WinMessage } from "../components/win-message/win-message";
 import { GameOver } from "../components/game-over/game-over";
 import { BetAreaChipCount } from "../components/bet-area/bet-area-chip-count";

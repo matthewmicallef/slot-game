@@ -1,10 +1,12 @@
-import { Container, Sprite, Texture, Graphics, Text, DisplayObject } from "pixi.js";
+import { Container, Sprite, Texture, Graphics, Text } from "pixi.js";
+import * as snd from 'pixi-sound';
 import { GAME_CONFIG } from "../../game-config";
 
 const INPUT_PLACEHOLDER_TAG_NAME = 'input-placeholder';
 
 export class SplashScene extends Container {
-    private continueButton: Sprite; 
+    private continueButton: Sprite;
+    private sceneSound: snd.default.Sound;
 
     constructor() {
         super();
@@ -12,12 +14,17 @@ export class SplashScene extends Container {
         this.createBackground();
         this.createTextBox();
         this.createContinueButton();
+        this.addSound();
     }
 
     removeTextBox() {
         const gameContainerElement = document.getElementsByClassName(INPUT_PLACEHOLDER_TAG_NAME)[0];
-        const balanceInputElement = document.getElementsByTagName('input')[0];        
+        const balanceInputElement = document.getElementsByTagName('input')[0];
         gameContainerElement.removeChild(balanceInputElement);
+    }
+
+    stopSound() {
+        this.sceneSound.stop();
     }
 
     private createBackground() {
@@ -34,7 +41,7 @@ export class SplashScene extends Container {
         const continueButtonHoverTexture = Texture.fromImage('./assets/button-load-hover.png');
 
         this.continueButton = new Sprite(continueButtonTexture);
-    
+
         this.continueButton.anchor.set(0.5, 0.5);
         this.continueButton.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y + 250);
         this.continueButton.scale.set(0.4, 0.4);
@@ -61,7 +68,7 @@ export class SplashScene extends Container {
     }
 
     private handleClick(requiredBalance: number) {
-        dispatchEvent(new CustomEvent('load-game', { detail: { requiredBalance: requiredBalance }}));
+        dispatchEvent(new CustomEvent('load-game', { detail: { requiredBalance: requiredBalance } }));
     }
 
     private createTextboxTitle() {
@@ -93,9 +100,9 @@ export class SplashScene extends Container {
         input.style.color = 'black';
         input.style.caretColor = 'black';
         input.style.fontSize = '20px';
-        
+
         input.oninput = () => this.checkInputContent();
-        
+
         gameContainerElement.prepend(input);
     }
 
@@ -119,5 +126,10 @@ export class SplashScene extends Container {
 
     private getInputValue() {
         return document.getElementsByTagName('input')[0].valueAsNumber;
+    }
+
+    private addSound() {
+        this.sceneSound = snd.default.Sound.from('./assets/sounds/splash-screen.mp3');
+        this.sceneSound.play();
     }
 }

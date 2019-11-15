@@ -7,15 +7,19 @@ export class SetupGame {
     application: Application
   ) {
 
-    // const splashScene = new SplashScene();
-    // application.stage.addChild(splashScene);
+    const splashScene = new SplashScene();
+    application.stage.addChild(splashScene);
 
-    // addEventListener('load-game', (event: any) => {
-    //   splashScene.removeTextBox();
-    //   application.stage.removeChild(splashScene);
-    //   application.stage.addChild(new GameScene(event.detail.requiredBalance));
-    // });
+    addEventListener('load-game', (event: any) => {
+      splashScene.removeTextBox();
+      splashScene.stopSound();
+      splashScene.destroy({
+        children: true
+      });
 
-    application.stage.addChild(new GameScene(10));
+      application.stage.addChild(new GameScene(event.detail.requiredBalance));
+    });
+
+    // application.stage.addChild(new GameScene(10));
   }
 }
