@@ -1,116 +1,69 @@
-import { Container, Graphics, Text } from "pixi.js";
+import { Sprite, loader } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
 import { BetService } from "../../services/bet-service";
 import { BalanceService } from "../../services/balance-service";
+import { BetAreaChipCount } from "./bet-area-chip-count";
 
-export class BetArea extends Container {
-    private betArea: Graphics;
+export class BetArea extends Sprite {
+    private betAreaChipCount: BetAreaChipCount
     private betAreaValue: number;
     private betService: BetService;
     private balanceService: BalanceService;
     private chipCount: number;
-
-    private initPositionValueX = 100;
-    private initPositionValueY = 500;
-    private counter = 0;
-
-    private chipCountValueText: Text;
+    private initPositionValueX: number;
+    private initPositionValueY: number;
+    private counter: number;
 
     constructor(
         counter: number,
+        betAreaChipCount: BetAreaChipCount,
         betAreaValue: number,
         betService: BetService,
         balanceService: BalanceService
     ) {
-        super();
+        const symbols = loader.resources[GAME_CONFIG.pathToSymbolAssets].textures;
+        const texture = symbols[`number-${betAreaValue}.png`];
+
+        super(texture);
+
         this.buttonMode = true;
         this.interactive = true;
 
-        this.betArea = new Graphics();
         this.betAreaValue = betAreaValue;
         this.betService = betService;
         this.balanceService = balanceService;
+        this.betAreaChipCount = betAreaChipCount;
+
         this.counter = counter;
         this.chipCount = 0;
 
-        this.createBetArea();
-        this.createBetAreaValueText();
-        this.createChipCountText();
-        this.on('click', () => this.handleClick())
-    }
-
-    resetChipCount() {
-        this.chipCount = 0;
-        this.chipCountValueText.text = '0';
+        this.initPositionValueX = 120;
+        this.initPositionValueY = 524;
+        this.anchor.set(0.5, 0.5);
+        this.position.set(
+            this.initPositionValueX + (80 * (this.counter + 1)),
+            this.initPositionValueY,
+        );
+        this.scale.set(0.1, 0.1);
+        this.handleEvents();
     }
 
     private handleClick() {
-        if (this.balanceService.getBalance() <= 0) 
+        if (this.balanceService.getBalance() <= 0)
             return;
 
-        this.chipCount += 1;
+        this.betAreaChipCount.incrementChipCount();
         this.betService.registerBet({
             chipAmount: 1,
             slotValue: this.betAreaValue
         })
-        this.chipCountValueText.text = this.chipCount.toString();
         this.balanceService.deductFromBalance(1);
         dispatchEvent(new Event('bet-area-clicked'));
     }
 
-    private createBetArea() {
-        this.betArea
-            .beginFill(0x118866)
-            .lineStyle(2, 0xffffff)
-            .drawRect(
-                this.initPositionValueX + (80 * (this.counter + 1)),
-                this.initPositionValueY,
-                50,
-                50
-            )
-            .endFill();
-
-        this.addChild(this.betArea);
-    }
-
-    private createBetAreaValueText() {
-        const betAreaValueText = new Text(this.betAreaValue.toString(), {
-            fontSize: 24,
-            fill: 0x1845
-        });
-
-        betAreaValueText.anchor.set(0.5, 0.5);
-        betAreaValueText.position.set(
-            this.initPositionValueX + 25 + (80 * (this.counter + 1)),
-            this.initPositionValueY + 25
-        );
-
-        this.addChild(betAreaValueText);
-    }
-
-    private createChipCountText() {
-        const chipCountText = new Text('Chips:', {
-            fontSize: 12,
-            fill: 0xffffff
-        });
-
-        chipCountText.anchor.set(0.5, 0.5);
-        chipCountText.position.set(
-            this.initPositionValueX + 20 + (80 * (this.counter + 1)),
-            this.initPositionValueY + 70
-        );
-
-        this.chipCountValueText = new Text(this.chipCount.toString(), {
-            fontSize: 12,
-            fill: 0xffffff
-        });
-        this.chipCountValueText.anchor.set(0.5, 0.5);
-        this.chipCountValueText.position.set(
-            this.initPositionValueX + 45 + (80 * (this.counter + 1)),
-            this.initPositionValueY + 70
-        );
-
-        this.addChild(chipCountText);
-        this.addChild(this.chipCountValueText);
+    private handleEvents() {
+        this.on('pointertap', () => this.handleClick())
+        addEventListener('spinning', () => this.interactive = false, false);
+        addEventListener('spin-complete', () => this.interactive = true, false);
     }
 }

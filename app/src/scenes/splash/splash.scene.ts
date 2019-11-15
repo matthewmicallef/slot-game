@@ -1,8 +1,10 @@
 import { Container, Sprite, Texture, Graphics, Text, DisplayObject } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
 
+const INPUT_PLACEHOLDER_TAG_NAME = 'input-placeholder';
+
 export class SplashScene extends Container {
-    private continueButton: Sprite;
+    private continueButton: Sprite; 
 
     constructor() {
         super();
@@ -13,7 +15,7 @@ export class SplashScene extends Container {
     }
 
     removeTextBox() {
-        const gameContainerElement = document.getElementsByClassName('game-container')[0];
+        const gameContainerElement = document.getElementsByClassName(INPUT_PLACEHOLDER_TAG_NAME)[0];
         const balanceInputElement = document.getElementsByTagName('input')[0];        
         gameContainerElement.removeChild(balanceInputElement);
     }
@@ -21,8 +23,8 @@ export class SplashScene extends Container {
     private createBackground() {
         const background = new Sprite(Texture.fromImage('./assets/splash-background.png'));
         background.anchor.set(0.5, 0.5);
-        background.position.set(400, 225);
-        background.scale.set(0.75, 0.75);
+        background.position.set(400, 200);
+        background.scale.set(1.3, 1.3);
 
         this.addChild(background);
     }
@@ -34,7 +36,7 @@ export class SplashScene extends Container {
         this.continueButton = new Sprite(continueButtonTexture);
     
         this.continueButton.anchor.set(0.5, 0.5);
-        this.continueButton.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y + 287);
+        this.continueButton.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y + 250);
         this.continueButton.scale.set(0.4, 0.4);
         this.continueButton.buttonMode = true;
         this.continueButton.interactive = false;
@@ -69,13 +71,13 @@ export class SplashScene extends Container {
         });
 
         inputTitle.anchor.set(0.5, 0.5);
-        inputTitle.position.set(GAME_CONFIG.centerPoints.x, 420);
+        inputTitle.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y + 100);
 
         this.addChild(inputTitle);
     }
 
     private createInputElement() {
-        const gameContainerElement = document.getElementsByClassName('game-container')[0];
+        const gameContainerElement = document.getElementsByClassName(INPUT_PLACEHOLDER_TAG_NAME)[0];
 
         const input = document.createElement('input');
         input.type = 'number';
@@ -83,7 +85,7 @@ export class SplashScene extends Container {
         input.style.position = 'relative';
         input.style.width = '170px';
         input.style.height = '30px';
-        input.style.top = '473px';
+        input.style.top = `${GAME_CONFIG.centerPoints.y + 130}px`;
         input.style.left = '315px';
         input.style.background = 'transparent';
         input.style.border = 'none';
@@ -110,7 +112,7 @@ export class SplashScene extends Container {
         this.addChild(
             new Graphics()
                 .beginFill(0xF9D24C)
-                .drawRect(316, 441, 170, 32)
+                .drawRect(316, GAME_CONFIG.centerPoints.y + 130, 170, 32)
                 .endFill()
         );
     }

@@ -1,15 +1,15 @@
 import { Graphics, Text, Sprite, Texture } from "pixi.js";
 import { BetService } from "../../services/bet-service";
-import { BetArea } from "../bet-area/bet-area";
+import { BetAreaChipCount } from "../bet-area/bet-area-chip-count";
 
 export class ClearButton extends Sprite {
     private betService: BetService;
-    private betAreas: BetArea[];
+    private betAreaChipCount: BetAreaChipCount[];
     private circle: Graphics;
 
     constructor(
         betService: BetService,
-        betAreas: BetArea[]
+        betAreaChipCount: BetAreaChipCount[]
     ) {
         const clearButtonTexture = Texture.fromImage('./assets/button-clear.png');
         const clearButtonHoverTexture = Texture.fromImage('./assets/button-clear-hover.png');
@@ -18,10 +18,10 @@ export class ClearButton extends Sprite {
         this.buttonMode = true;
 
         this.betService = betService;
-        this.betAreas = betAreas;
+        this.betAreaChipCount = betAreaChipCount;
 
         this.anchor.set(0.5, 0.5);
-        this.position.set(700, 525);
+        this.position.set(700, 535);
         this.scale.set(0.2, 0.2);
 
         this.disableButton();
@@ -35,8 +35,8 @@ export class ClearButton extends Sprite {
 
         this.betService.resetBets();
 
-        for (let i = 0; i < this.betAreas.length; i++) {
-            this.betAreas[i].resetChipCount();
+        for (let i = 0; i < this.betAreaChipCount.length; i++) {
+            this.betAreaChipCount[i].resetChipCount();
         }
 
         this.disableButton();

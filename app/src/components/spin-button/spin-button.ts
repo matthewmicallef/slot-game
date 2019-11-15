@@ -1,4 +1,5 @@
 import { Sprite, Texture } from 'pixi.js';
+import * as snd from 'pixi-sound';
 import { GAME_CONFIG } from '../../game-config';
 import { ReelService } from '../../services/reel-service';
 import { BetService } from '../../services/bet-service';
@@ -24,8 +25,8 @@ export class SpinButton extends Sprite {
     this.betService = betService;
 
     this.anchor.set(0.5, 0.5);
-    this.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y);
-    this.scale.set(0.4, 0.4);
+    this.position.set(100, 535);
+    this.scale.set(0.3, 0.3);
 
     this.disableButton();
     this.handleEvents(spinButtonTexture, spinButtonHoverTexture);
@@ -35,19 +36,12 @@ export class SpinButton extends Sprite {
     this.spinning = false;
   }
 
-  private handleClick() {
-    if (this.spinning) {
-      return;
-    } else {
-      this.spin();
-    }
-  }
-
   private spin() {
     this.betService.placeBets();
 
     this.spinning = true;
     this.reelService.getReel().spin();
+
     this.disableButton();
     dispatchEvent(new Event('spinning'));
   }
@@ -61,7 +55,17 @@ export class SpinButton extends Sprite {
   }
 
   private handleEvents(texture: Texture, hoverTexture: Texture) {
-    this.on('pointertap', () => this.handleClick());
+    this.on('pointertap', () => {
+      if (this.spinning) {
+        return;
+      } else {
+        // TODO: FIX SOUND
+        const x = snd.default.Sound.from('./assets/sounds/button-click.mp3');
+        x.play();
+        this.texture = texture;
+        this.spin();
+      }
+    });
 
     this.on('pointerover', () => {
       this.texture = hoverTexture;

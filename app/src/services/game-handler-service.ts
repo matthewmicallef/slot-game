@@ -2,25 +2,25 @@ import { BetService } from "./bet-service";
 import { BalanceService } from "./balance-service";
 import { Container } from "pixi.js";
 import { WinMessage } from "../components/win-message/win-message";
-import { BetArea } from "../components/bet-area/bet-area";
 import { GameOver } from "../components/game-over/game-over";
+import { BetAreaChipCount } from "../components/bet-area/bet-area-chip-count";
 
 export class GameHandlerService {
     private container: Container;
     private betService: BetService;
     private balanceService: BalanceService;
-    private betAreas: BetArea[];
+    private betAreaChipCount: BetAreaChipCount[];
 
     constructor(
         container: Container,
         betService: BetService,
         balanceService: BalanceService,
-        betAreas: BetArea[]
+        betAreaChipCount: BetAreaChipCount[]
     ) {
         this.container = container;
         this.betService = betService;
         this.balanceService = balanceService;
-        this.betAreas = betAreas;
+        this.betAreaChipCount = betAreaChipCount;
 
         addEventListener('spin-complete', (event: any) => this.handleGameSpinComplete(event.detail.slotResult), false);
         addEventListener('no-funds-available', () => this.handleGameOver(), false);
@@ -46,8 +46,8 @@ export class GameHandlerService {
             this.betService.resetBets();
         }, 2000);
 
-        for (let i = 0; i < this.betAreas.length; i++) {
-            this.betAreas[i].resetChipCount();
+        for (let i = 0; i < this.betAreaChipCount.length; i++) {
+            this.betAreaChipCount[i].resetChipCount();
         }
     }
 
