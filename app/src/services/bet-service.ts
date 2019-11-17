@@ -56,7 +56,6 @@ export class BetService {
             }
         }
 
-        console.log('win', win);
         return {
             actualWin: win - chipAmount,
             balanceWin: win

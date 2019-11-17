@@ -21,7 +21,5 @@ export class SlotsContainer extends Container {
     for (let slotCount = 0; slotCount < numberOfSlots; slotCount += 1) {
       this.addChild(new Slot(slotCount, numberOfSlots, radius, this.slotService));
     }
-
-    console.log('all', this.slotService.getAll());
   }
 }

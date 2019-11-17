@@ -10,22 +10,22 @@ export class SetupGame {
   ) {
 
     const soundService = new SoundService();
-    const splashScene = new SplashScene(soundService);
+    // const splashScene = new SplashScene(soundService);
     
     application.stage.addChild(new SoundArea(soundService));
-    application.stage.addChild(splashScene);
+    // application.stage.addChild(splashScene);
 
-    addEventListener('load-game', (event: any) => {
-      soundService.stopSceneSound();
-      splashScene.removeTextBox();
-      splashScene.destroy({
-        children: true
-      });
+    // addEventListener('load-game', (event: any) => {
+    //   soundService.stopSceneSound();
+    //   splashScene.removeTextBox();
+    //   splashScene.destroy({
+    //     children: true
+    //   });
 
-      application.stage.addChild(new GameScene(event.detail.requiredBalance, soundService));
-    });
+    //   application.stage.addChild(new GameScene(event.detail.requiredBalance, soundService));
+    // });
 
 
-    // application.stage.addChild(new GameScene(10, soundService));
+    application.stage.addChild(new GameScene(10, soundService));
   }
 }

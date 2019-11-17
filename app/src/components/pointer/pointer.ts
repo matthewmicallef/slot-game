@@ -3,7 +3,7 @@ import { Points, GAME_CONFIG } from "../../game-config";
 
 export class Pointer extends Sprite {
     constructor() {
-        const initialPoints: Points = { x: 170, y: GAME_CONFIG.reelCenterPoints.y };
+        const initialPoints: Points = { x: 170, y: GAME_CONFIG.reel.centerPoints.y };
         const texture = Texture.fromImage('./assets/pointer.png')
         super(texture);
 

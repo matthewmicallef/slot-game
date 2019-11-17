@@ -37,8 +37,11 @@ export class GameHandlerService {
             this.balanceService.addToBalance(win.balanceWin);
             const winContainer = this.container.addChild(new WinMessage(win.actualWin, this.soundService));
 
+            this.setGameInteraction(false);
             setTimeout(() => {
                 this.container.removeChild(winContainer);
+                this.betService.resetBets();
+                this.setGameInteraction(true);
             }, 2000);
         }
 
@@ -47,20 +50,23 @@ export class GameHandlerService {
             return;
         }
 
-        setTimeout(() => {
+        if (win.balanceWin <= 0) {
             this.betService.resetBets();
-        }, 2000);
+        }
 
         for (let i = 0; i < this.betAreaChipCount.length; i++) {
             this.betAreaChipCount[i].resetChipCount();
         }
     }
 
+    setGameInteraction(state: boolean) {
+        for (let child of this.container.children) {
+            child.interactive = state;
+        }
+    }
+
     handleGameOver() {
         this.container.addChild(new GameOver());
-
-        for (let child of this.container.children) {
-          child.interactive = false;
-        }
+        this.setGameInteraction(false);
     }
 }
