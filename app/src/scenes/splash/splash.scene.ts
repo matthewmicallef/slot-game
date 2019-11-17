@@ -1,6 +1,5 @@
 import { Container, Sprite, Texture, Graphics, Text } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
-import { SoundArea } from "../../components/sound-area/sound-area";
 import { SoundService } from "../../services/sound-service";
 
 const INPUT_PLACEHOLDER_TAG_NAME = 'input-placeholder';
@@ -20,7 +19,6 @@ export class SplashScene extends Container {
         this.createBackground();
         this.createTextBox();
         this.createContinueButton();
-        this.addChild(new SoundArea(this.soundService));
     }
 
     removeTextBox() {

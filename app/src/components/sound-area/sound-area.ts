@@ -1,14 +1,7 @@
 import { Sprite, Texture } from "pixi.js";
-import * as snd from 'pixi-sound';
-import { SoundService } from "../../services/sound-service";
-
-enum SoundState {
-    playing = 1,
-    muted
-}
+import { SoundService, SoundState } from "../../services/sound-service";
 
 export class SoundArea extends Sprite {
-    private soundState: SoundState;
     private soundService: SoundService;
 
     constructor(
@@ -30,7 +23,6 @@ export class SoundArea extends Sprite {
         this.scale.set(0.5, 0.5);
         this.position.set(750, 50);
 
-        this.soundState = SoundState.playing;
         this.handleEvents(
             playButtonTexture,
             playButtonHoverTexture,
@@ -41,27 +33,30 @@ export class SoundArea extends Sprite {
 
     private handleEvents(playTexture, playHoverTexture, muteTexture, muteHoverTexture) {
         this.on('pointertap', () => {
+            const soundState = this.soundService.getSoundState();
             this.soundService.playButtonClick();
-            snd.default.togglePauseAll();
-            if (this.soundState === SoundState.playing) {
-                this.soundState = SoundState.muted;
+
+            if (soundState === SoundState.playing) {
                 this.texture = muteHoverTexture;
             }
             else {
-                this.soundState = SoundState.playing;
                 this.texture = playHoverTexture;
             }
+
+            this.soundService.toggleSound();
         })
 
         this.on('pointerover', () => {
-            if (this.soundState === SoundState.playing)
+            const soundState = this.soundService.getSoundState();
+            if (soundState === SoundState.playing)
                 this.texture = playHoverTexture;
             else
                 this.texture = muteHoverTexture;
         });
 
         this.on('pointerout', () => {
-            if (this.soundState === SoundState.playing)
+            const soundState = this.soundService.getSoundState();
+            if (soundState === SoundState.playing)
                 this.texture = playTexture;
             else
                 this.texture = muteTexture;

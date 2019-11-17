@@ -1,8 +1,17 @@
 body {
-    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-size: cover;
+}
+
+.input-placeholder {
+    height: 0;
 }
 
 .game-container {
-    margin: 0 auto;
-    width: 800px;
+    height: 600px;
+    background-color: rgba(0, 0, 0, 0.8);
 }

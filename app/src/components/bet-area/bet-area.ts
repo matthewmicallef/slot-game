@@ -3,13 +3,14 @@ import { GAME_CONFIG } from "../../game-config";
 import { BetService } from "../../services/bet-service";
 import { BalanceService } from "../../services/balance-service";
 import { BetAreaChipCount } from "./bet-area-chip-count";
+import { SoundService } from "../../services/sound-service";
 
 export class BetArea extends Sprite {
     private betAreaChipCount: BetAreaChipCount
     private betAreaValue: number;
     private betService: BetService;
     private balanceService: BalanceService;
-    private chipCount: number;
+    private soundService: SoundService
     private initPositionValueX: number;
     private initPositionValueY: number;
     private counter: number;
@@ -19,7 +20,8 @@ export class BetArea extends Sprite {
         betAreaChipCount: BetAreaChipCount,
         betAreaValue: number,
         betService: BetService,
-        balanceService: BalanceService
+        balanceService: BalanceService,
+        soundService: SoundService
     ) {
         const symbols = loader.resources[GAME_CONFIG.pathToSymbolAssets].textures;
         const texture = symbols[`number-${betAreaValue}.png`];
@@ -32,11 +34,16 @@ export class BetArea extends Sprite {
         this.betAreaValue = betAreaValue;
         this.betService = betService;
         this.balanceService = balanceService;
+        this.soundService = soundService;
         this.betAreaChipCount = betAreaChipCount;
 
         this.counter = counter;
-        this.chipCount = 0;
 
+        this.init();
+        this.handleEvents();
+    }
+
+    private init() {
         this.initPositionValueX = 120;
         this.initPositionValueY = 524;
         this.anchor.set(0.5, 0.5);
@@ -45,7 +52,6 @@ export class BetArea extends Sprite {
             this.initPositionValueY,
         );
         this.scale.set(0.1, 0.1);
-        this.handleEvents();
     }
 
     private handleClick() {
@@ -62,7 +68,11 @@ export class BetArea extends Sprite {
     }
 
     private handleEvents() {
-        this.on('pointertap', () => this.handleClick())
+        this.on('pointertap', () => {
+            this.soundService.playCoinSound();
+            this.handleClick()
+        });
+
         addEventListener('spinning', () => this.interactive = false, false);
         addEventListener('spin-complete', () => this.interactive = true, false);
     }

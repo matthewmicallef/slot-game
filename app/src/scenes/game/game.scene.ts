@@ -11,7 +11,6 @@ import { ClearButton } from '../../components/clear-button/clear-button';
 import { Pointer } from '../../components/pointer/pointer';
 import { GameHandlerService } from '../../services/game-handler-service';
 import { BetAreaChipCount } from '../../components/bet-area/bet-area-chip-count';
-import { SoundArea } from '../../components/sound-area/sound-area';
 import { SoundService } from '../../services/sound-service';
 
 export class GameScene extends Container {
@@ -42,7 +41,14 @@ export class GameScene extends Container {
 
         for (let i = 0; i <= 5; i++) {
             const chipCount = new BetAreaChipCount(i);
-            const betArea = new BetArea(i, chipCount, GAME_CONFIG.slotValues[i], this.betService, this.balanceService);
+            const betArea = new BetArea(
+                i,
+                chipCount,
+                GAME_CONFIG.slotValues[i],
+                this.betService,
+                this.balanceService,
+                this.soundService
+            );
             betAreaChipCount.push(chipCount);
 
             this.addChild(betArea);
@@ -65,6 +71,5 @@ export class GameScene extends Container {
         this.addChild(clearButton);
         this.addChild(spinButton);
         this.addChild(new Pointer());
-        this.addChild(new SoundArea(this.soundService));
     }
 }
