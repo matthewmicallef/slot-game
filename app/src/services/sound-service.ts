@@ -25,6 +25,7 @@ export class SoundService {
 
     playCoinSound() {
         const sound = snd.default.Sound.from('./assets/sounds/coin.wav');
+        this.sceneSound.volume = 0.5;
         sound.play();
     }
 
