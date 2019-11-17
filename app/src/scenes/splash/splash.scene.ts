@@ -17,6 +17,7 @@ export class SplashScene extends Container {
         this.soundService.playSplashSceneSound();
 
         this.createBackground();
+        this.addCharacters();
         this.createTextBox();
         this.createContinueButton();
     }
@@ -129,5 +130,30 @@ export class SplashScene extends Container {
 
     private getInputValue() {
         return document.getElementsByTagName('input')[0].valueAsNumber;
+    }
+
+    private addCharacters() {
+        const guybrushTexture = Texture.fromImage('./assets/guybrush.png');
+        const guybrush = new Sprite(guybrushTexture);
+
+        guybrush.anchor.set(0.5, 0.5);
+        guybrush.position.set(
+            GAME_CONFIG.canvasCenterPoints.x - 250,
+            GAME_CONFIG.canvasCenterPoints.y
+        );
+        guybrush.scale.set(0.7, 0.7);
+
+        const elainTexture = Texture.fromImage('./assets/elaine.png');
+        const elaine = new Sprite(elainTexture);
+
+        elaine.anchor.set(0.5, 0.5);
+        elaine.position.set(
+            GAME_CONFIG.canvasCenterPoints.x + 250,
+            GAME_CONFIG.canvasCenterPoints.y
+        );
+        elaine.scale.set(0.7, 0.7);
+
+        this.addChild(guybrush);
+        this.addChild(elaine);
     }
 }
