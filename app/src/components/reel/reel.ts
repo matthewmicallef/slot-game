@@ -1,4 +1,4 @@
-import { Container, Texture, Sprite } from 'pixi.js';
+import { Container, Texture, Sprite, Graphics } from 'pixi.js';
 import { TweenLite, TimelineMax, Back, Linear, Power1 } from 'gsap';
 import { GAME_CONFIG } from '../../game-config';
 import { SlotsContainer } from '../slots/slots-container';
@@ -16,6 +16,7 @@ export class Reel extends Container {
     this.slotService = new SlotService();
     this.slotCount = this.getSlotCount();
 
+    this.createSlotGrid();
     this.createBackground();
     this.addChild(new SlotsContainer(this.slotCount, GAME_CONFIG.reel.radius, this.slotService));
 
@@ -62,5 +63,23 @@ export class Reel extends Container {
   private getSlotCount(): number {
     const roundedCircumference = Math.round(GAME_CONFIG.reel.radius * 2 * Math.PI);
     return Math.round(roundedCircumference / GAME_CONFIG.reel.slotWidth);
+  }
+
+  private createSlotGrid() {
+    const sectionGraphic = new Graphics();
+    const radiansPerSector = (Math.PI * 2) / this.slotCount;
+
+    for (let sector = 0; sector < this.slotCount; sector += 1) {
+      const startingAngle = sector * radiansPerSector - radiansPerSector / 2;
+      const endingAngle = startingAngle + radiansPerSector;
+    
+      sectionGraphic.lineStyle(2, 0x864403, 1);
+      sectionGraphic.moveTo(0, 0);
+      sectionGraphic.arc(0, 0, GAME_CONFIG.reel.radius, startingAngle, endingAngle);
+      sectionGraphic.lineTo(0, 0);
+      sectionGraphic.position.set(GAME_CONFIG.reel.centerPoints.x, GAME_CONFIG.reel.centerPoints.y);
+    }
+
+    this.addChild(sectionGraphic)
   }
 }
