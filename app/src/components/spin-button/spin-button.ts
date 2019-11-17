@@ -1,16 +1,18 @@
 import { Sprite, Texture } from 'pixi.js';
-import * as snd from 'pixi-sound';
 import { ReelService } from '../../services/reel-service';
 import { BetService } from '../../services/bet-service';
+import { SoundService } from '../../services/sound-service';
 
 export class SpinButton extends Sprite {
   private spinning: boolean;
   private reelService: ReelService;
   private betService: BetService;
+  private soundService: SoundService;
 
   constructor(
     reelService: ReelService,
-    betService: BetService
+    betService: BetService,
+    soundService: SoundService
   ) {
     const spinButtonTexture = Texture.fromImage('./assets/button-reload.png');
     const spinButtonHoverTexture = Texture.fromImage('./assets/button-reload-hover.png');
@@ -22,6 +24,7 @@ export class SpinButton extends Sprite {
 
     this.reelService = reelService;
     this.betService = betService;
+    this.soundService = soundService;
 
     this.anchor.set(0.5, 0.5);
     this.position.set(100, 535);
@@ -58,9 +61,7 @@ export class SpinButton extends Sprite {
       if (this.spinning) {
         return;
       } else {
-        // TODO: FIX SOUND
-        const x = snd.default.Sound.from('./assets/sounds/button-click.mp3');
-        x.play();
+        this.soundService.playButtonClick();
         this.texture = texture;
         this.spin();
       }

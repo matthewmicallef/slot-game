@@ -1,5 +1,4 @@
 import { Container } from 'pixi.js';
-import * as snd from 'pixi-sound';
 import { Reel } from '../../components/reel/reel';
 import { GAME_CONFIG } from '../../game-config';
 import { SpinButton } from '../../components/spin-button/spin-button';
@@ -12,22 +11,27 @@ import { ClearButton } from '../../components/clear-button/clear-button';
 import { Pointer } from '../../components/pointer/pointer';
 import { GameHandlerService } from '../../services/game-handler-service';
 import { BetAreaChipCount } from '../../components/bet-area/bet-area-chip-count';
+import { SoundArea } from '../../components/sound-area/sound-area';
+import { SoundService } from '../../services/sound-service';
 
 export class GameScene extends Container {
     private balanceService: BalanceService;
     private betService: BetService;
     private reelService: ReelService;
+    private soundService: SoundService;
 
     constructor(
-        balance: number
+        balance: number,
+        soundService: SoundService
     ) {
         super();
         this.balanceService = new BalanceService(balance);
         this.betService = new BetService(this.balanceService);
         this.reelService = new ReelService();
+        this.soundService = soundService;
 
         this.init();
-        this.addSound();
+        this.soundService.playGameSceneSound();
     }
 
     init() {
@@ -49,21 +53,18 @@ export class GameScene extends Container {
             this,
             this.betService,
             this.balanceService,
-            betAreaChipCount
+            betAreaChipCount,
+            this.soundService
         );
 
-        const clearButton = new ClearButton(this.betService, betAreaChipCount);
-        const spinButton = new SpinButton(this.reelService, this.betService);
+        const clearButton = new ClearButton(this.betService, betAreaChipCount, this.soundService);
+        const spinButton = new SpinButton(this.reelService, this.betService, this.soundService);;
 
         this.addChild(balance);
         this.addChild(canvasReel);
         this.addChild(clearButton);
         this.addChild(spinButton);
         this.addChild(new Pointer());
-    }
-
-    private addSound() {
-        const sceneSound = snd.default.Sound.from('./assets/sounds/game-play.mp3');
-        sceneSound.play();
+        this.addChild(new SoundArea(this.soundService));
     }
 }

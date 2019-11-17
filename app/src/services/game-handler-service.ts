@@ -4,23 +4,27 @@ import { BalanceService } from "./balance-service";
 import { WinMessage } from "../components/win-message/win-message";
 import { GameOver } from "../components/game-over/game-over";
 import { BetAreaChipCount } from "../components/bet-area/bet-area-chip-count";
+import { SoundService } from "./sound-service";
 
 export class GameHandlerService {
     private container: Container;
     private betService: BetService;
     private balanceService: BalanceService;
     private betAreaChipCount: BetAreaChipCount[];
+    private soundService: SoundService;
 
     constructor(
         container: Container,
         betService: BetService,
         balanceService: BalanceService,
-        betAreaChipCount: BetAreaChipCount[]
+        betAreaChipCount: BetAreaChipCount[],
+        soundService: SoundService
     ) {
         this.container = container;
         this.betService = betService;
         this.balanceService = balanceService;
         this.betAreaChipCount = betAreaChipCount;
+        this.soundService = soundService;
 
         addEventListener('spin-complete', (event: any) => this.handleGameSpinComplete(event.detail.slotResult), false);
         addEventListener('no-funds-available', () => this.handleGameOver(), false);
@@ -31,10 +35,11 @@ export class GameHandlerService {
 
         if (win.balanceWin > 0) {
             this.balanceService.addToBalance(win.balanceWin);
-            const winContainer = this.container.addChild(new WinMessage(win.actualWin));
+            const winContainer = this.container.addChild(new WinMessage(win.actualWin, this.soundService));
+
             setTimeout(() => {
                 this.container.removeChild(winContainer);
-            }, 1000);
+            }, 2000);
         }
 
         if (this.balanceService.getBalance() <= 0) {

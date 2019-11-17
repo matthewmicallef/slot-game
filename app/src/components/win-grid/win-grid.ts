@@ -37,7 +37,7 @@ export class WinGrid extends Sprite {
     // }
 
     super(winGridGraphic.generateCanvasTexture());
-    this.position.set(GAME_CONFIG.centerPoints.x - GAME_CONFIG.winGrid.width, GAME_CONFIG.centerPoints.y);
+    this.position.set(GAME_CONFIG.canvasCenterPoints.x - GAME_CONFIG.winGrid.width, GAME_CONFIG.canvasCenterPoints.y);
     this.anchor.set(0.5, 0.5);
   }
 }

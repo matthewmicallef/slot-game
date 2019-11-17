@@ -1,7 +1,7 @@
-import { Graphics, Text } from "pixi.js";
+import { Text, Container, Sprite, Texture } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
 
-export class GameOver extends Graphics {
+export class GameOver extends Container {
     constructor() {
         super();
 
@@ -10,24 +10,19 @@ export class GameOver extends Graphics {
     }
 
     private createBackground() {
-        this.addChild(new Graphics()
-            .beginFill(0x000000)
-            .lineStyle(2, 0xffffff)
-            .drawRect(
-                GAME_CONFIG.canvas.width / 2 - 250,
-                GAME_CONFIG.canvas.height / 2 - 250,
-                500,
-                500
-            )
-            .endFill()
-        );
+        const popupBackground = new Sprite(Texture.fromImage('./assets/popup-background.png'));
+        popupBackground.anchor.set(0.5, 0.5);
+        popupBackground.position.set(GAME_CONFIG.canvasCenterPoints.x, GAME_CONFIG.canvasCenterPoints.y);
+        popupBackground.scale.set(0.9, 0.9);
+
+        this.addChild(popupBackground);
     }
 
     private createText() {
         const text = new Text('GAME OVER', {
             fontFamily: 'Arial',
             fontSize: 40,
-            fill: 0xff1010,
+            fill: 0x000000,
             align: 'center',
         });
 

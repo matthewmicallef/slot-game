@@ -27,7 +27,8 @@ export interface GameCenterButton {
 
 export interface GameConfig {
   canvas: Measurement;
-  centerPoints: Points;
+  canvasCenterPoints: Points;
+  reelCenterPoints: Points;
   centerButton: GameCenterButton;
   reel: ReelProps;
   pathToSymbolAssets: string;
@@ -43,9 +44,13 @@ export const GAME_CONFIG: GameConfig = {
     width: 800,
     height: 600,
   },
-  centerPoints: {
+  canvasCenterPoints: {
     x: 400,
-    y: 250,
+    y: 300,
+  },
+  reelCenterPoints: {
+    x: 400,
+    y: 275
   },
   centerButton: {
     radius: 50,
@@ -76,12 +81,12 @@ export const GAME_CONFIG: GameConfig = {
     style: {
       fontFamily: 'Arial',
       fontSize: 20,
-      fill: 0xff1010,
+      fill: 0xffffff,
       align: 'center',
     },
     position: {
-      x: 50,
-      y: 20
+      x: 100,
+      y: 40
     }
   },
   winGrid: {

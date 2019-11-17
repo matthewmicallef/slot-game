@@ -1,15 +1,17 @@
-import { Graphics, Text, Sprite, Texture } from "pixi.js";
+import { Sprite, Texture } from "pixi.js";
 import { BetService } from "../../services/bet-service";
 import { BetAreaChipCount } from "../bet-area/bet-area-chip-count";
+import { SoundService } from "../../services/sound-service";
 
 export class ClearButton extends Sprite {
     private betService: BetService;
     private betAreaChipCount: BetAreaChipCount[];
-    private circle: Graphics;
+    private soundService: SoundService;
 
     constructor(
         betService: BetService,
-        betAreaChipCount: BetAreaChipCount[]
+        betAreaChipCount: BetAreaChipCount[],
+        soundService: SoundService
     ) {
         const clearButtonTexture = Texture.fromImage('./assets/button-clear.png');
         const clearButtonHoverTexture = Texture.fromImage('./assets/button-clear-hover.png');
@@ -19,6 +21,7 @@ export class ClearButton extends Sprite {
 
         this.betService = betService;
         this.betAreaChipCount = betAreaChipCount;
+        this.soundService = soundService;
 
         this.anchor.set(0.5, 0.5);
         this.position.set(700, 535);
@@ -51,7 +54,10 @@ export class ClearButton extends Sprite {
     }
 
     private handleEvents(texture: Texture, hoverTexture: Texture) {
-        this.on('pointertap', () => this.handleClick());
+        this.on('pointertap', () => {
+            this.soundService.playButtonClick();
+            this.handleClick()
+        });
 
         this.on('pointerover', () => {
             this.texture = hoverTexture;

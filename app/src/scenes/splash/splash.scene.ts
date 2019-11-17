@@ -1,30 +1,32 @@
 import { Container, Sprite, Texture, Graphics, Text } from "pixi.js";
-import * as snd from 'pixi-sound';
 import { GAME_CONFIG } from "../../game-config";
+import { SoundArea } from "../../components/sound-area/sound-area";
+import { SoundService } from "../../services/sound-service";
 
 const INPUT_PLACEHOLDER_TAG_NAME = 'input-placeholder';
 
 export class SplashScene extends Container {
     private continueButton: Sprite;
-    private sceneSound: snd.default.Sound;
+    private soundService: SoundService;
 
-    constructor() {
+    constructor(
+        soundService: SoundService
+    ) {
         super();
+
+        this.soundService = soundService;
+        this.soundService.playSplashSceneSound();
 
         this.createBackground();
         this.createTextBox();
         this.createContinueButton();
-        this.addSound();
+        this.addChild(new SoundArea(this.soundService));
     }
 
     removeTextBox() {
         const gameContainerElement = document.getElementsByClassName(INPUT_PLACEHOLDER_TAG_NAME)[0];
         const balanceInputElement = document.getElementsByTagName('input')[0];
         gameContainerElement.removeChild(balanceInputElement);
-    }
-
-    stopSound() {
-        this.sceneSound.stop();
     }
 
     private createBackground() {
@@ -43,7 +45,7 @@ export class SplashScene extends Container {
         this.continueButton = new Sprite(continueButtonTexture);
 
         this.continueButton.anchor.set(0.5, 0.5);
-        this.continueButton.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y + 250);
+        this.continueButton.position.set(GAME_CONFIG.canvasCenterPoints.x, GAME_CONFIG.canvasCenterPoints.y + 230);
         this.continueButton.scale.set(0.4, 0.4);
         this.continueButton.buttonMode = true;
         this.continueButton.interactive = false;
@@ -56,7 +58,10 @@ export class SplashScene extends Container {
             this.continueButton.texture = continueButtonTexture;
         });
 
-        this.continueButton.on('pointertap', () => this.handleClick(this.getInputValue()));
+        this.continueButton.on('pointertap', () => {
+            this.soundService.playButtonClick();
+            this.handleClick(this.getInputValue());
+        });
 
         this.addChild(this.continueButton);
     }
@@ -78,7 +83,7 @@ export class SplashScene extends Container {
         });
 
         inputTitle.anchor.set(0.5, 0.5);
-        inputTitle.position.set(GAME_CONFIG.centerPoints.x, GAME_CONFIG.centerPoints.y + 100);
+        inputTitle.position.set(GAME_CONFIG.canvasCenterPoints.x, GAME_CONFIG.canvasCenterPoints.y + 100);
 
         this.addChild(inputTitle);
     }
@@ -92,7 +97,7 @@ export class SplashScene extends Container {
         input.style.position = 'relative';
         input.style.width = '170px';
         input.style.height = '30px';
-        input.style.top = `${GAME_CONFIG.centerPoints.y + 130}px`;
+        input.style.top = `${GAME_CONFIG.canvasCenterPoints.y + 130}px`;
         input.style.left = '315px';
         input.style.background = 'transparent';
         input.style.border = 'none';
@@ -119,17 +124,12 @@ export class SplashScene extends Container {
         this.addChild(
             new Graphics()
                 .beginFill(0xF9D24C)
-                .drawRect(316, GAME_CONFIG.centerPoints.y + 130, 170, 32)
+                .drawRect(316, GAME_CONFIG.canvasCenterPoints.y + 130, 170, 32)
                 .endFill()
         );
     }
 
     private getInputValue() {
         return document.getElementsByTagName('input')[0].valueAsNumber;
-    }
-
-    private addSound() {
-        this.sceneSound = snd.default.Sound.from('./assets/sounds/splash-screen.mp3');
-        this.sceneSound.play();
     }
 }

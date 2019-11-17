@@ -1,4 +1,4 @@
-import { Container, Text } from "pixi.js";
+import { Container, Text, Texture, Sprite } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
 import { BalanceService } from "../../services/balance-service";
 
@@ -13,8 +13,7 @@ export class Balance extends Container {
         super();
         this.balanceService = balanceService;
 
-        console.log('creating balance');
-
+        this.createBackground();
         this.createBalanceText();
         this.createBalanceValueText();
 
@@ -26,11 +25,22 @@ export class Balance extends Container {
         );
     }
 
+    private createBackground() {
+        const background = Texture.fromImage('./assets/balance-background.png');
+        const backgroundSprite = new Sprite(background);
+
+        backgroundSprite.anchor.set(0.5, 0.5);
+        backgroundSprite.position.set(GAME_CONFIG.balance.position.x, GAME_CONFIG.balance.position.y);
+        backgroundSprite.scale.set(0.35, 0.5);
+
+        this.addChild(backgroundSprite);
+    }
+
     private createBalanceText() {
         this.balanceText = new Text('Balance:', GAME_CONFIG.balance.style);
 
         this.balanceText.anchor.set(0.5, 0.5);
-        this.balanceText.position.set(GAME_CONFIG.balance.position.x, GAME_CONFIG.balance.position.y);
+        this.balanceText.position.set(GAME_CONFIG.balance.position.x - 15, GAME_CONFIG.balance.position.y);
 
         this.addChild(this.balanceText);
     }
@@ -39,7 +49,7 @@ export class Balance extends Container {
         this.balanceValueText = new Text(this.balanceService.getBalance().toString(), GAME_CONFIG.balance.style);
 
         this.balanceValueText.anchor.set(0.5, 0.5);
-        this.balanceValueText.position.set(GAME_CONFIG.balance.position.x + 60, GAME_CONFIG.balance.position.y);
+        this.balanceValueText.position.set(GAME_CONFIG.balance.position.x + 40, GAME_CONFIG.balance.position.y);
 
         this.addChild(this.balanceValueText);
     }
