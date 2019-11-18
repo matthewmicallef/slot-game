@@ -8,6 +8,8 @@ A special take on Play'n GO's Money Wheel, themed using (The Secret of ) Monkey 
 
 - Prior installation of Node (for NPM)
 
+Note: Project was run on npm version 6.4.1 and Node version 11.2.0
+
 ### Installing & Running
 
 1. Go to root folder (`cd slot-game`)
