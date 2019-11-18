@@ -2,6 +2,7 @@ import { Sprite, Texture } from "pixi.js";
 import { BetService } from "../../services/bet-service";
 import { BetAreaChipCount } from "../bet-area/bet-area-chip-count";
 import { SoundService } from "../../services/sound-service";
+import { SpriteService } from "../../services/sprite-service";
 
 export class ClearButton extends Sprite {
     private betService: BetService;
@@ -11,10 +12,11 @@ export class ClearButton extends Sprite {
     constructor(
         betService: BetService,
         betAreaChipCount: BetAreaChipCount[],
-        soundService: SoundService
+        soundService: SoundService,
+        spriteService: SpriteService
     ) {
-        const clearButtonTexture = Texture.fromImage('./assets/button-clear.png');
-        const clearButtonHoverTexture = Texture.fromImage('./assets/button-clear-hover.png');
+        const clearButtonTexture = spriteService.getTexture('button-clear');
+        const clearButtonHoverTexture = spriteService.getTexture('button-clear-hover');
 
         super(clearButtonTexture);
         this.buttonMode = true;

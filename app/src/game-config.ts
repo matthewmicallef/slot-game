@@ -30,6 +30,7 @@ export interface GameConfig {
   centerButton: GameCenterButton;
   reel: ReelProps;
   pathToSymbolAssets: string;
+  pathToGameAssets: string;
   symbolsSize: Measurement;
   spinButton: SpinButtonProps;
   balance: BalanceProps;
@@ -62,6 +63,7 @@ export const GAME_CONFIG: GameConfig = {
     }
   },
   pathToSymbolAssets: './assets/slot-numbers.json',
+  pathToGameAssets: './assets/game-spritesheet.json',
   symbolsSize: {
     width: 25,
     height: 25,

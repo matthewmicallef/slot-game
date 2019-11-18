@@ -7,6 +7,25 @@ body {
     background-size: cover;
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.balance-input {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    text-align: center;
+    font-size: 60px;
+    border: none;
+    background-color: transparent;
+    outline-width: 0;
+    color: #C0AB69;
+    caret-color: #C0AB69;
+}
+
 .input-placeholder {
     height: 0;
 }

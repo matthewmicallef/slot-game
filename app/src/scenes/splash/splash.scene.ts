@@ -1,19 +1,24 @@
 import { Container, Sprite, Texture, Graphics, Text } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
 import { SoundService } from "../../services/sound-service";
+import { SpriteService } from "../../services/sprite-service";
 
 const INPUT_PLACEHOLDER_TAG_NAME = 'input-placeholder';
 
 export class SplashScene extends Container {
     private continueButton: Sprite;
     private soundService: SoundService;
+    private spriteService: SpriteService;
 
     constructor(
-        soundService: SoundService
+        soundService: SoundService,
+        spriteService: SpriteService
     ) {
         super();
 
         this.soundService = soundService;
+        this.spriteService = spriteService;
+
         this.soundService.playSplashSceneSound();
 
         this.createBackground();
@@ -29,22 +34,22 @@ export class SplashScene extends Container {
     }
 
     private createBackground() {
-        const background = new Sprite(Texture.fromImage('./assets/splash-background.png'));
+        const background = new Sprite(this.spriteService.getTexture('splash-background'));
         background.anchor.set(0.5, 0.5);
-        background.position.set(400, 200);
+        background.position.set(400, 120);
         background.scale.set(1.3, 1.3);
 
         this.addChild(background);
     }
 
     private createContinueButton() {
-        const continueButtonTexture = Texture.fromImage('./assets/button-load.png');
-        const continueButtonHoverTexture = Texture.fromImage('./assets/button-load-hover.png');
+        const continueButtonTexture = this.spriteService.getTexture('button-load');
+        const continueButtonHoverTexture = this.spriteService.getTexture('button-load-hover');
 
         this.continueButton = new Sprite(continueButtonTexture);
 
         this.continueButton.anchor.set(0.5, 0.5);
-        this.continueButton.position.set(GAME_CONFIG.canvasCenterPoints.x, GAME_CONFIG.canvasCenterPoints.y + 230);
+        this.continueButton.position.set(GAME_CONFIG.canvasCenterPoints.x, GAME_CONFIG.canvasCenterPoints.y + 210);
         this.continueButton.scale.set(0.4, 0.4);
         this.continueButton.buttonMode = true;
         this.continueButton.interactive = false;
@@ -77,12 +82,12 @@ export class SplashScene extends Container {
 
     private createTextboxTitle() {
         const inputTitle = new Text('Enter Required Balance:', {
-            fontSize: 18,
-            fill: 0xffffff
+            fontSize: 25,
+            fill: 0xC0AB69
         });
 
         inputTitle.anchor.set(0.5, 0.5);
-        inputTitle.position.set(GAME_CONFIG.canvasCenterPoints.x, GAME_CONFIG.canvasCenterPoints.y + 100);
+        inputTitle.position.set(GAME_CONFIG.canvasCenterPoints.x, GAME_CONFIG.canvasCenterPoints.y - 30);
 
         this.addChild(inputTitle);
     }
@@ -93,17 +98,8 @@ export class SplashScene extends Container {
         const input = document.createElement('input');
         input.type = 'number';
         input.className = 'balance-input';
-        input.style.position = 'relative';
-        input.style.width = '170px';
-        input.style.height = '30px';
-        input.style.top = `${GAME_CONFIG.canvasCenterPoints.y + 130}px`;
-        input.style.left = '315px';
-        input.style.background = 'transparent';
-        input.style.border = 'none';
-        input.style.outlineWidth = '0';
-        input.style.color = 'black';
-        input.style.caretColor = 'black';
-        input.style.fontSize = '20px';
+        input.style.top = `${GAME_CONFIG.canvasCenterPoints.y + 20}px`;
+        input.style.left = '356px';
 
         input.oninput = () => this.checkInputContent();
 
@@ -120,12 +116,11 @@ export class SplashScene extends Container {
     }
 
     private createTextboxBackground() {
-        this.addChild(
-            new Graphics()
-                .beginFill(0xF9D24C)
-                .drawRect(316, GAME_CONFIG.canvasCenterPoints.y + 130, 170, 32)
-                .endFill()
-        );
+        const inputBackground = new Sprite(this.spriteService.getTexture('input-background'));
+
+        inputBackground.anchor.set(0.5, 0.5);
+        inputBackground.position.set(400, GAME_CONFIG.canvasCenterPoints.y + 68);
+        this.addChild(inputBackground);
     }
 
     private getInputValue() {
@@ -133,7 +128,7 @@ export class SplashScene extends Container {
     }
 
     private addCharacters() {
-        const guybrushTexture = Texture.fromImage('./assets/guybrush.png');
+        const guybrushTexture = this.spriteService.getTexture('guybrush');
         const guybrush = new Sprite(guybrushTexture);
 
         guybrush.anchor.set(0.5, 0.5);
@@ -141,9 +136,9 @@ export class SplashScene extends Container {
             GAME_CONFIG.canvasCenterPoints.x - 250,
             GAME_CONFIG.canvasCenterPoints.y
         );
-        guybrush.scale.set(0.7, 0.7);
+        guybrush.scale.set(0.9, 0.9);
 
-        const elainTexture = Texture.fromImage('./assets/elaine.png');
+        const elainTexture = this.spriteService.getTexture('elaine');
         const elaine = new Sprite(elainTexture);
 
         elaine.anchor.set(0.5, 0.5);
@@ -151,7 +146,7 @@ export class SplashScene extends Container {
             GAME_CONFIG.canvasCenterPoints.x + 250,
             GAME_CONFIG.canvasCenterPoints.y
         );
-        elaine.scale.set(0.7, 0.7);
+        elaine.scale.set(0.9, 0.9);
 
         this.addChild(guybrush);
         this.addChild(elaine);

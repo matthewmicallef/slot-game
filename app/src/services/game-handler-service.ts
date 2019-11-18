@@ -1,10 +1,11 @@
-import { Container, sound } from "pixi.js";
+import { Container, sound, Sprite } from "pixi.js";
 import { BetService } from "./bet-service";
 import { BalanceService } from "./balance-service";
 import { WinMessage } from "../components/win-message/win-message";
 import { GameOver } from "../components/game-over/game-over";
 import { BetAreaChipCount } from "../components/bet-area/bet-area-chip-count";
 import { SoundService } from "./sound-service";
+import { SpriteService } from "./sprite-service";
 
 export class GameHandlerService {
     private container: Container;
@@ -12,19 +13,22 @@ export class GameHandlerService {
     private balanceService: BalanceService;
     private betAreaChipCount: BetAreaChipCount[];
     private soundService: SoundService;
+    private spriteService: SpriteService;
 
     constructor(
         container: Container,
         betService: BetService,
         balanceService: BalanceService,
         betAreaChipCount: BetAreaChipCount[],
-        soundService: SoundService
+        soundService: SoundService,
+        spriteService: SpriteService
     ) {
         this.container = container;
         this.betService = betService;
         this.balanceService = balanceService;
         this.betAreaChipCount = betAreaChipCount;
         this.soundService = soundService;
+        this.spriteService = spriteService;
 
         addEventListener('spin-complete', (event: any) => this.handleGameSpinComplete(event.detail.slotResult), false);
         addEventListener('no-funds-available', () => this.handleGameOver(), false);
@@ -35,7 +39,9 @@ export class GameHandlerService {
 
         if (win.balanceWin > 0) {
             this.balanceService.addToBalance(win.balanceWin);
-            const winContainer = this.container.addChild(new WinMessage(win.actualWin, this.soundService));
+            const winContainer = this.container.addChild(
+                new WinMessage(win.actualWin, this.soundService, this.spriteService)
+            );
 
             this.setGameInteraction(false);
             setTimeout(() => {
@@ -66,7 +72,7 @@ export class GameHandlerService {
     }
 
     handleGameOver() {
-        this.container.addChild(new GameOver());
+        this.container.addChild(new GameOver(this.spriteService));
         this.setGameInteraction(false);
     }
 }

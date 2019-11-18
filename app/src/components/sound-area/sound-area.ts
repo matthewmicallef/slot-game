@@ -1,16 +1,18 @@
 import { Sprite, Texture } from "pixi.js";
 import { SoundService, SoundState } from "../../services/sound-service";
+import { SpriteService } from "../../services/sprite-service";
 
 export class SoundArea extends Sprite {
     private soundService: SoundService;
 
     constructor(
-        soundService: SoundService
+        soundService: SoundService,
+        spriteService: SpriteService
     ) {
-        const playButtonTexture = Texture.fromImage('./assets/sound-play.png');
-        const playButtonHoverTexture = Texture.fromImage('./assets/sound-play-hover.png');
-        const muteButtonTexture = Texture.fromImage('./assets/sound-mute.png');
-        const muteButtonHoverTexture = Texture.fromImage('./assets/sound-mute-hover.png');
+        const playButtonTexture = spriteService.getTexture('sound-play');
+        const playButtonHoverTexture = spriteService.getTexture('sound-play-hover');
+        const muteButtonTexture = spriteService.getTexture('sound-mute');
+        const muteButtonHoverTexture = spriteService.getTexture('sound-mute-hover');
 
         super(playButtonTexture);
 

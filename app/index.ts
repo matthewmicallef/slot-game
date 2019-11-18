@@ -12,7 +12,7 @@ export class Main {
     }
 
     init() {
-        loader.add(GAME_CONFIG.pathToSymbolAssets).load(() => {
+        loader.add(GAME_CONFIG.pathToGameAssets).load(() => {
             new ApplicationLoader()
                 .load()
                 .then((application: Application) => {

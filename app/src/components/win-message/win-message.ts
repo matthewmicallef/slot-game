@@ -1,13 +1,19 @@
 import { Container, Text, Texture, Sprite } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
 import { SoundService } from "../../services/sound-service";
+import { SpriteService } from "../../services/sprite-service";
 
 export class WinMessage extends Container {
+    private spriteService: SpriteService;
+
     constructor(
         winAmount: number,
-        soundService: SoundService
+        soundService: SoundService,
+        spriteService: SpriteService
     ) {
         super();
+
+        this.spriteService = spriteService;
 
         soundService.playWinSound();
         this.createBackground();
@@ -15,7 +21,7 @@ export class WinMessage extends Container {
     }
 
     private createBackground() {
-        const popupBackground = new Sprite(Texture.fromImage('./assets/popup-background.png'));
+        const popupBackground = new Sprite(this.spriteService.getTexture('popup-background'));
         popupBackground.anchor.set(0.5, 0.5);
         popupBackground.position.set(GAME_CONFIG.canvasCenterPoints.x, GAME_CONFIG.canvasCenterPoints.y);
         popupBackground.scale.set(0.4, 0.4);

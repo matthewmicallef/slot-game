@@ -4,21 +4,26 @@ import { GAME_CONFIG } from '../../game-config';
 import { SlotsContainer } from '../slots/slots-container';
 import { randomNumberFromRange } from '../../utils/randon-number';
 import { SlotService } from '../../services/slot-service';
+import { SpriteService } from '../../services/sprite-service';
 
 export class Reel extends Container {
   private slotCount: number;
   private slotService: SlotService;
   private slotValueLandedOn: number;
+  private spriteService: SpriteService;
 
-  constructor() {
+  constructor(
+    spriteService: SpriteService
+  ) {
     super();
 
     this.slotService = new SlotService();
+    this.spriteService = spriteService;
     this.slotCount = this.getSlotCount();
 
     this.createSlotGrid();
     this.createBackground();
-    this.addChild(new SlotsContainer(this.slotCount, GAME_CONFIG.reel.radius, this.slotService));
+    this.addChild(new SlotsContainer(this.slotCount, GAME_CONFIG.reel.radius, this.slotService, spriteService));
 
     this.pivot.set(GAME_CONFIG.reel.centerPoints.x, GAME_CONFIG.reel.centerPoints.y);
     this.position.set(GAME_CONFIG.reel.centerPoints.x, GAME_CONFIG.reel.centerPoints.y);
@@ -50,8 +55,7 @@ export class Reel extends Container {
   }
 
   private createBackground() {
-    const texture = Texture.fromImage('./assets/reel.png');
-    const sprite = new Sprite(texture);
+    const sprite = new Sprite(this.spriteService.getTexture('reel'));
 
     sprite.anchor.set(0.5, 0.5);
     sprite.position.set(GAME_CONFIG.reel.centerPoints.x, GAME_CONFIG.reel.centerPoints.y);

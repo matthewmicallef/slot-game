@@ -1,9 +1,9 @@
 import { Sprite, loader } from "pixi.js";
-import { GAME_CONFIG } from "../../game-config";
 import { BetService } from "../../services/bet-service";
 import { BalanceService } from "../../services/balance-service";
 import { BetAreaChipCount } from "./bet-area-chip-count";
 import { SoundService } from "../../services/sound-service";
+import { SpriteService } from "../../services/sprite-service";
 
 export class BetArea extends Sprite {
     private betAreaChipCount: BetAreaChipCount
@@ -21,12 +21,10 @@ export class BetArea extends Sprite {
         betAreaValue: number,
         betService: BetService,
         balanceService: BalanceService,
-        soundService: SoundService
+        soundService: SoundService,
+        spriteService: SpriteService
     ) {
-        const symbols = loader.resources[GAME_CONFIG.pathToSymbolAssets].textures;
-        const texture = symbols[`number-${betAreaValue}.png`];
-
-        super(texture);
+        super(spriteService.getTexture(`number-${betAreaValue}`));
 
         this.buttonMode = true;
         this.interactive = true;

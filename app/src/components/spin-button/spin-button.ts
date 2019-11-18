@@ -2,6 +2,7 @@ import { Sprite, Texture } from 'pixi.js';
 import { ReelService } from '../../services/reel-service';
 import { BetService } from '../../services/bet-service';
 import { SoundService } from '../../services/sound-service';
+import { SpriteService } from '../../services/sprite-service';
 
 export class SpinButton extends Sprite {
   private spinning: boolean;
@@ -12,10 +13,11 @@ export class SpinButton extends Sprite {
   constructor(
     reelService: ReelService,
     betService: BetService,
-    soundService: SoundService
+    soundService: SoundService,
+    spriteService: SpriteService
   ) {
-    const spinButtonTexture = Texture.fromImage('./assets/button-reload.png');
-    const spinButtonHoverTexture = Texture.fromImage('./assets/button-reload-hover.png');
+    const spinButtonTexture = spriteService.getTexture('button-reload');
+    const spinButtonHoverTexture = spriteService.getTexture('button-reload-hover');
 
     super(spinButtonTexture);
 

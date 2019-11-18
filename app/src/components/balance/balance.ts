@@ -1,17 +1,21 @@
 import { Container, Text, Texture, Sprite } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
 import { BalanceService } from "../../services/balance-service";
+import { SpriteService } from "../../services/sprite-service";
 
 export class Balance extends Container {
     private balanceText: Text;
     private balanceValueText: Text;
     private balanceService: BalanceService;
+    private spriteService: SpriteService;
 
     constructor(
-        balanceService: BalanceService
+        balanceService: BalanceService,
+        spriteService: SpriteService
     ) {
         super();
         this.balanceService = balanceService;
+        this.spriteService = spriteService;
 
         this.createBackground();
         this.createBalanceText();
@@ -26,8 +30,7 @@ export class Balance extends Container {
     }
 
     private createBackground() {
-        const background = Texture.fromImage('./assets/balance-background.png');
-        const backgroundSprite = new Sprite(background);
+        const backgroundSprite = new Sprite(this.spriteService.getTexture('balance-background'));
 
         backgroundSprite.anchor.set(0.5, 0.5);
         backgroundSprite.position.set(GAME_CONFIG.balance.position.x, GAME_CONFIG.balance.position.y);
