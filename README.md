@@ -4,27 +4,23 @@ A special take on Play'n GOs Money Wheel, themed using (The Secret of ) Monkey I
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
-What things you need to install the software and how to install them
+- Prior installation of Node (for NPM)
 
-```
-Give examples
-```
+### Installing & Running
 
-### Installing
-
-1. Go to root folder
+1. Go to root folder (`cd slot-game`)
 2. `npm install`
 3. `npm start`
 4. Default browser tab should load automatically, however project should be running at [http://localhost:8080/](http://localhost:8080/)
 
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Potential Improvements
+## Potential Improvements
 - Improve responsiveness (particularly on mobile devices)
-- Add testing (unit, end-to-end, etc...)
+- Add testing (unit, end-to-end, visual regression, 
+etc...)
+
+## Notes
+
+1. All requested functionality has been implemented.
+2. Additionally implemented sound effects (including mute/unmute).
