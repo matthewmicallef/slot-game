@@ -5,20 +5,25 @@ import { SlotsContainer } from '../slots/slots-container';
 import { randomNumberFromRange } from '../../utils/randon-number';
 import { SlotService } from '../../services/slot-service';
 import { SpriteService } from '../../services/sprite-service';
+import { SoundService } from '../../services/sound-service';
 
 export class Reel extends Container {
   private slotCount: number;
   private slotService: SlotService;
   private slotValueLandedOn: number;
   private spriteService: SpriteService;
+  private soundService: SoundService;
 
   constructor(
-    spriteService: SpriteService
+    spriteService: SpriteService,
+    soundService: SoundService
   ) {
     super();
 
     this.slotService = new SlotService();
     this.spriteService = spriteService;
+    this.soundService = soundService;
+
     this.slotCount = this.getSlotCount();
 
     this.createSlotGrid();
@@ -36,6 +41,8 @@ export class Reel extends Container {
     const factionOfCircle = slotToLandOn / this.slotCount;
     const landingAngle = factionOfCircle * Math.PI * 2;
     let finalRotation = landingAngle + Math.PI;
+
+    this.soundService.playReelSound();
 
     TweenLite.set(this, {
       duration: 10,

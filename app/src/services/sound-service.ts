@@ -18,6 +18,12 @@ export class SoundService {
         sound.play();
     }
 
+    playReelSound() {
+        const sound = snd.default.Sound.from('./assets/sounds/reel-sound.mp3');
+        sound.volume = 1.5;
+        sound.play();
+    }
+
     playWinSound() {
         this.sceneSound = snd.default.Sound.from('./assets/sounds/chime.mp3');
         this.sceneSound.play();

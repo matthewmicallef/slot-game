@@ -40,7 +40,7 @@ export class GameScene extends Container {
     init() {
         const balance = new Balance(this.balanceService, this.spriteService);
         const betAreaChipCount: BetAreaChipCount[] = [];
-        const canvasReel = new Reel(this.spriteService);
+        const canvasReel = new Reel(this.spriteService, this.soundService);
         this.reelService.setReel(canvasReel);
 
         for (let i = 0; i <= 5; i++) {
