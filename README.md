@@ -20,7 +20,7 @@ A special take on Play'n GOs Money Wheel, themed using (The Secret of ) Monkey I
 2. Press Load
 3. Click on any of the bet areas for required bets
 4. Click the spin button to try your luck!
-5. The clear button will clear any already registered bets.
+5. The clear button will clear any already registered bets
 
 ## Potential Improvements
 - Improve responsiveness (particularly on mobile devices)
@@ -31,5 +31,6 @@ etc...)
 
 ## Notes
 
-1. All requested functionality has been implemented.
-2. Additionally implemented sound effects (including mute/unmute).
+1. All requested functionality has been implemented
+2. Additionally implemented sound effects (including mute/unmute)
+3. Update to GSAP 3.0 for better animation management
