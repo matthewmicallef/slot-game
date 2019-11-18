@@ -36,16 +36,15 @@ export class SpinButton extends Sprite {
     this.handleEvents(spinButtonTexture, spinButtonHoverTexture);
   }
 
-  spinComplete() {
+  private spinComplete() {
     this.spinning = false;
     this.disableButton();
   }
 
   private spin() {
-    this.betService.placeBets();
     this.spinning = true;
+    this.betService.placeBets();
     dispatchEvent(new Event('spinning'));
-    this.disableButton();
     this.reelService.getReel().spin();
   }
 
@@ -64,13 +63,15 @@ export class SpinButton extends Sprite {
         return;
       } else {
         this.soundService.playButtonClick();
+        this.disableButton();
         this.texture = texture;
         this.spin();
       }
     });
 
     this.on('pointerover', () => {
-      this.texture = hoverTexture;
+      if (this.interactive)
+        this.texture = hoverTexture;
     });
 
     this.on('pointerout', () => {
