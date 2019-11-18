@@ -23,7 +23,7 @@ export class SoundArea extends Sprite {
 
         this.anchor.set(0.5, 0.5);
         this.scale.set(0.5, 0.5);
-        this.position.set(750, 50);
+        this.position.set(760, 40);
 
         this.handleEvents(
             playButtonTexture,
