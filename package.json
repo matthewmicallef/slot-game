@@ -1,23 +1,14 @@
 {
   "name": "slots-game",
   "version": "1.0.0",
-  "description": "A wheel of fortune slots game.",
+  "description": "A Monkey Island wheel of fortune.",
   "main": "index.js",
   "scripts": {
     "dev-build": "webpack --config webpack.dev.config.js",
     "prod-build": "webpack --config webpack.prod.config.js",
     "start": "webpack-dev-server --open --config webpack.dev.config.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dom-waterson/slots-game.git"
-  },
-  "author": "Dom Waterson",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/dom-waterson/slots-game/issues"
-  },
-  "homepage": "https://github.com/dom-waterson/slots-game#readme",
+  "author": "Matthew Micallef",
   "devDependencies": {
     "@types/pixi.js": "^4.8.8",
     "babel-core": "^6.26.3",
