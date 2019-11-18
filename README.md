@@ -15,6 +15,13 @@ A special take on Play'n GOs Money Wheel, themed using (The Secret of ) Monkey I
 3. `npm start`
 4. Default browser tab should load automatically, however project should be running at [http://localhost:8080/](http://localhost:8080/)
 
+## Play Instructions
+1. Enter required balance
+2. Press Load
+3. Click on any of the bet areas for required bets
+4. Click the spin button to try your luck!
+5. The clear button will clear any already registered bets.
+
 ## Potential Improvements
 - Improve responsiveness (particularly on mobile devices)
 - Add testing (unit, end-to-end, visual regression, 
