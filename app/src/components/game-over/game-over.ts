@@ -34,7 +34,7 @@ export class GameOver extends Container {
         });
 
         text.anchor.set(0.5, 0.5);
-        text.position.set(400, 300);
+        text.position.set(GAME_CONFIG.canvasCenterPoints.x, GAME_CONFIG.canvasCenterPoints.y);
 
         this.addChild(text);
     }
