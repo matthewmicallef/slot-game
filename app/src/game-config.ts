@@ -29,7 +29,6 @@ export interface GameConfig {
   canvasCenterPoints: Points;
   centerButton: GameCenterButton;
   reel: ReelProps;
-  pathToSymbolAssets: string;
   pathToGameAssets: string;
   symbolsSize: Measurement;
   spinButton: SpinButtonProps;
@@ -62,7 +61,6 @@ export const GAME_CONFIG: GameConfig = {
       y: 275
     }
   },
-  pathToSymbolAssets: './assets/slot-numbers.json',
   pathToGameAssets: './assets/game-spritesheet.json',
   symbolsSize: {
     width: 25,

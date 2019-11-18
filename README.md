@@ -19,6 +19,8 @@ A special take on Play'n GOs Money Wheel, themed using (The Secret of ) Monkey I
 - Improve responsiveness (particularly on mobile devices)
 - Add testing (unit, end-to-end, visual regression, 
 etc...)
+- Include Dependency Injection (may be better off with inclusion of UI framework e.g. React)
+- Update proper CONFIG usage (standardise approach and use more `.model.ts` files)
 
 ## Notes
 
