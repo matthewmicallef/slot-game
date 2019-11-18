@@ -1,6 +1,6 @@
 # Monkey Island Wheel
 
-A special take on Play'n GOs Money Wheel, themed using (The Secret of ) Monkey Island graphics. A splash screen requiring the user to enter the required balance/coins, and a game scene that allows the user to bet on various bet areas and spin the wheel to try out his luck.
+A special take on Play'n GO's Money Wheel, themed using (The Secret of ) Monkey Island graphics. A splash screen requiring the user to enter the required balance/coins, and a game scene that allows the user to bet on various bet areas and spin the wheel to try out his luck.
 
 ## Getting Started
 

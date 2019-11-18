@@ -1,4 +1,4 @@
-import { Container, Sprite, Texture, Graphics, Text } from "pixi.js";
+import { Container, Sprite, Text } from "pixi.js";
 import { GAME_CONFIG } from "../../game-config";
 import { SoundService } from "../../services/sound-service";
 import { SpriteService } from "../../services/sprite-service";

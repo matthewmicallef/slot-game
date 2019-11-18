@@ -1,4 +1,4 @@
-import { Sprite, loader } from 'pixi.js';
+import { Sprite } from 'pixi.js';
 import { GAME_CONFIG } from '../../game-config';
 import { randomNumberFromRange } from '../../utils/randon-number';
 import { SlotService } from '../../services/slot-service';

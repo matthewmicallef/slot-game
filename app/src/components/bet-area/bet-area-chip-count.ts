@@ -1,4 +1,4 @@
-import { Container, Text, loader } from "pixi.js";
+import { Container, Text } from "pixi.js";
 
 export class BetAreaChipCount extends Container {
     private initPositionValueX: number;

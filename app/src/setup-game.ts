@@ -1,4 +1,4 @@
-import { Application, loader, sound } from 'pixi.js';
+import { Application } from 'pixi.js';
 import { GameScene } from './scenes/game/game.scene';
 import { SplashScene } from './scenes/splash/splash.scene';
 import { SoundService } from './services/sound-service';

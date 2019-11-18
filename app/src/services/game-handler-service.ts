@@ -1,4 +1,4 @@
-import { Container, sound, Sprite } from "pixi.js";
+import { Container } from "pixi.js";
 import { BetService } from "./bet-service";
 import { BalanceService } from "./balance-service";
 import { WinMessage } from "../components/win-message/win-message";

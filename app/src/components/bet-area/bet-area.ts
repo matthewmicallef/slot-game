@@ -1,4 +1,4 @@
-import { Sprite, loader } from "pixi.js";
+import { Sprite } from "pixi.js";
 import { BetService } from "../../services/bet-service";
 import { BalanceService } from "../../services/balance-service";
 import { BetAreaChipCount } from "./bet-area-chip-count";

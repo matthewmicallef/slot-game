@@ -1,4 +1,4 @@
-import { Sprite, Texture } from "pixi.js";
+import { Sprite } from "pixi.js";
 import { SoundService, SoundState } from "../../services/sound-service";
 import { SpriteService } from "../../services/sprite-service";
 

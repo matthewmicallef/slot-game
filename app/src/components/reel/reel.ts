@@ -1,5 +1,5 @@
-import { Container, Texture, Sprite, Graphics } from 'pixi.js';
-import { TweenLite, TimelineMax, Back, Linear, Power1 } from 'gsap';
+import { Container, Sprite, Graphics } from 'pixi.js';
+import { TweenLite, Back } from 'gsap';
 import { GAME_CONFIG } from '../../game-config';
 import { SlotsContainer } from '../slots/slots-container';
 import { randomNumberFromRange } from '../../utils/randon-number';
