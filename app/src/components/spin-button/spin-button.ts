@@ -38,16 +38,15 @@ export class SpinButton extends Sprite {
 
   spinComplete() {
     this.spinning = false;
+    this.disableButton();
   }
 
   private spin() {
     this.betService.placeBets();
-
     this.spinning = true;
-    this.reelService.getReel().spin();
-
-    this.disableButton();
     dispatchEvent(new Event('spinning'));
+    this.disableButton();
+    this.reelService.getReel().spin();
   }
 
   private disableButton() {
@@ -55,7 +54,8 @@ export class SpinButton extends Sprite {
   }
 
   private enableButton() {
-    this.interactive = true;
+    if (!this.interactive)
+      this.interactive = true;
   }
 
   private handleEvents(texture: Texture, hoverTexture: Texture) {

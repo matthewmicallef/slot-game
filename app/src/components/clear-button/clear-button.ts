@@ -8,6 +8,7 @@ export class ClearButton extends Sprite {
     private betService: BetService;
     private betAreaChipCount: BetAreaChipCount[];
     private soundService: SoundService;
+    private clearButtontexture: Texture;
 
     constructor(
         betService: BetService,
@@ -19,7 +20,9 @@ export class ClearButton extends Sprite {
         const clearButtonHoverTexture = spriteService.getTexture('button-clear-hover');
 
         super(clearButtonTexture);
+
         this.buttonMode = true;
+        this.clearButtontexture = clearButtonTexture;
 
         this.betService = betService;
         this.betAreaChipCount = betAreaChipCount;
@@ -31,7 +34,7 @@ export class ClearButton extends Sprite {
 
         this.disableButton();
 
-        this.handleEvents(clearButtonTexture, clearButtonHoverTexture);
+        this.handleEvents(clearButtonHoverTexture);
     }
 
     private handleClick() {
@@ -40,37 +43,39 @@ export class ClearButton extends Sprite {
 
         this.betService.resetBets();
 
-        for (let i = 0; i < this.betAreaChipCount.length; i++) {
-            this.betAreaChipCount[i].resetChipCount();
+        for (const betAreaChipCount of this.betAreaChipCount) {
+            betAreaChipCount.resetChipCount();
         }
 
         this.disableButton();
     }
 
     private disableButton() {
+        this.texture = this.clearButtontexture;
         this.interactive = false;
     }
 
     private enableButton() {
-        this.interactive = true;
+        if (!this.interactive)
+            this.interactive = true;
     }
 
-    private handleEvents(texture: Texture, hoverTexture: Texture) {
+    private handleEvents(hoverTexture: Texture) {
         this.on('pointertap', () => {
             this.soundService.playButtonClick();
             this.handleClick()
         });
 
         this.on('pointerover', () => {
-            this.texture = hoverTexture;
+            if (this.interactive)
+                this.texture = hoverTexture;
         });
 
         this.on('pointerout', () => {
-            this.texture = texture;
+            this.texture = this.clearButtontexture;
         });
 
         addEventListener('bet-area-clicked', () => this.enableButton(), false);
-        addEventListener('spin-complete', () => this.disableButton(), false);
         addEventListener('spinning', () => this.disableButton(), false);
     }
 }
